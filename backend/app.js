@@ -5,6 +5,7 @@ app.use(express.json());
 
 
 
+app.use('/candidateForm', require('./routes/candidateRouts'));
 
 //=========================
 let port = process.env.PORT || 5555;
