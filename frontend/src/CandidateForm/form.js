@@ -17,7 +17,7 @@ export function Form() {
 
         <div>
             {fields.map((curr, i) => (<div key={i}> {switchField(curr)} </div>))}
-
+            <input type="submit" />
         </div>
     )
 
@@ -49,7 +49,7 @@ function switchField(curr) {
                     return selectFunction(curr);
 
                 case false:
-                    return "false";
+                    return selectFunction(curr);
                 default:
                     break;
 
@@ -95,53 +95,120 @@ function inputFunction(curr) {
 
 
 function emailFunction(curr) {
-    const isRequired = curr.requierd
+
     return (
         <div className='emailInput'>
             <label> {curr.label}</label>
-            {isRequired ?
-                <div>
-                    <input type="email" placeholder="example@example.com" required />
-                </div>
-                :
-                <input type="email" placeholder="example@example.com" />
-            }
+
+            <div>
+                <input type="email" placeholder="example@example.com" required />
+            </div>
+
         </div>
     )
 }
 
-function telFunction() {
+// Look for nice way to show it //
+function telFunction(curr) {
+
     return (
-        <div className='telInput'> input </div>
+        <div className='telInput'>
+            <label> {curr.label}</label>
+
+            <div>
+                <label>05 </label>
+                <input type="tel" placeholder="0-655-5919" required pattern={[0 - 9] * 8} />
+            </div>
+
+        </div>
     )
 }
 
 
+//if the user didnt choose number , will open checkbox that asks if the user has no degrees, to do data analyst //
+function numberFunction(curr) {
 
-function numberFunction() {
     return (
-        <div className='numberInput'> input </div>
+
+        <div className='numberInput'>
+            <label> {curr.label}</label>
+
+            <div>
+                <input type="number" min={curr.properties.min} max={curr.properties.max} />
+
+            </div>
+
+        </div>
+
+
     )
 }
 
 
 //=========================//
-function selectFunction() {
-
+function selectFunction(curr) {
+    const isRequired = curr.requierd;
+    const isMultiple = curr.properties.multiple;
+    const options = curr.properties.selectOptions
     return (
         <div className='selectClass'>
-            <label>
-                select
-            </label>
+            <label> {curr.label}</label>
+            {isMultiple ?
+                <div>
+                    {isRequired ?
 
+                        <select required id='options' multiple >
+                            {options.map((curr, i) => (
+                                <option> {curr}</option>
+                            ))}
+
+                        </select>
+                        :
+                        <select id='options' multiple >
+                            {options.map((curr, i) => (
+                                <option> {curr}</option>
+                            ))}
+                        </select>
+
+                    }
+                </div>
+                :
+                <div>
+                    {isRequired ?
+
+                        <select required >
+                            {options.map((curr, i) => (
+                                <option> {curr}</option>
+                            ))}
+
+                        </select>
+
+                        :
+                        <select >
+                            {options.map((curr, i) => (
+                                <option> {curr}</option>
+                            ))}
+                        </select>
+                    }
+                </div>
+            }
         </div>
     )
 }
 
 //==========================//
-function textAreaFunction() {
-
+function textAreaFunction(curr) {
+    const isRequired = curr.requierd
     return (
-        <div className='textAreaClass'> text area</div>
+
+        <div className='textAreaClass'>
+            <label> {curr.label}</label>
+            {isRequired ?
+                <textarea cols={25} rows={20} maxLength={500} required />
+                :
+                <textarea cols={25} rows={20} maxLength={500} />
+            }
+        </div>
+
     )
 }

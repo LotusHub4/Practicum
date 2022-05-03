@@ -157,7 +157,7 @@ exports.fields =
       {
          "name": "morningWork",
          "type": "input",
-         "label": "////// :",
+         "label": "Morning Availability:",
          "funcName": "",
          "requierd": true,
          "properties": {
@@ -167,7 +167,7 @@ exports.fields =
       {
          "name": "childrenArrangement",
          "type": "select",
-         "label": "////// :",
+         "label": "Have Arrangment For Children: ",
          "funcName": "",
          "requierd": true,
          "properties": {
@@ -182,7 +182,7 @@ exports.fields =
       {
          "name": "studiesCombined",
          "type": "input",
-         "label": "////// :",
+         "label": "Still A Student",
          "funcName": "",
          "requierd": true,
          "properties": {
@@ -192,7 +192,7 @@ exports.fields =
       {
          "name": "adjustment",
          "type": "textArea",
-         "label": "Why Do You Think... :",
+         "label": "Why Do You Think That You Are The Suitable Candidate? :",
          "funcName": "",
          "requierd": true,
          "properties": {
