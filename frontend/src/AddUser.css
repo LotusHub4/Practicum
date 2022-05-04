@@ -1,0 +1,63 @@
+.allItems {
+    background-color: #FFF9F5;
+}
+
+.AddUserForm {
+    text-align: left;
+    padding-left: 300px;
+
+}
+
+.logoimg img {
+    height: 80px;
+    width: 150px;
+    margin-top: 10px;
+    margin-right: 1500px;
+}
+
+h3 {
+    margin-left: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 50px;
+    border-radius: 7px;
+    text-shadow: black 20px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="tel"],
+select {
+    height: 30px;
+    width: 200px;
+    border-radius: 7px;
+}
+
+.NameDegree input,
+.RolLocPhon select,
+.RolLocPhon input,
+.UserNamePasswordSubmit input,
+.Email {
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
+.NameDegree,
+.RolLocPhon,
+.Email,
+.UserNamePasswordSubmit {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+
+button {
+    margin-left: 120px;
+    background-color: #FFDAC4;
+    border: #FFDAC4;
+    height: 30px;
+    width: 90px;
+    border-radius: 7px;
+}
