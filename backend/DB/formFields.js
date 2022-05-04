@@ -37,7 +37,8 @@ exports.fields =
          "funcName": "checkPhone",
          "requierd": true,
          "properties": {
-            "inputType": "tel"
+            "inputType": "tel",
+            "pattern": "[0-9]*8"
          }
       },
       {

@@ -117,7 +117,7 @@ function telFunction(curr) {
 
             <div>
                 <label>05 </label>
-                <input type="tel" placeholder="0-655-5919" required pattern={[0 - 9] * 8} />
+                <input type="tel" placeholder="0-655-5919" required pattern={curr.properties.pattern} />
             </div>
 
         </div>
@@ -166,7 +166,7 @@ function selectFunction(curr) {
                         :
                         <select id='options' multiple >
                             {options.map((curr, i) => (
-                                <option> {curr}</option>
+                                <option>{curr}</option>
                             ))}
                         </select>
 
