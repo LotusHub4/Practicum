@@ -22,3 +22,5 @@ function getAllCandidates() {
 
 exports.getAllCandidates = getAllCandidates;
 
+
+
