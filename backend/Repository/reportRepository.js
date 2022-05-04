@@ -22,6 +22,7 @@ function getAllCandidates() {
 
 exports.getAllCandidates = getAllCandidates;
 
+
 function getCandidateById(id) {
     return new Promise(async (resolve, reject) => {
         let y = await connect.connectionfun();
@@ -41,3 +42,4 @@ function getCandidateById(id) {
     });
 }
 exports.getCandidateById = getCandidateById
+
