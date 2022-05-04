@@ -1,0 +1,48 @@
+.Role {
+    background-color: #FFF9F5;
+}
+
+.Role .logoimg {
+    display: flex;
+    justify-content: left;
+
+}
+
+.logoimg img {
+    height: 150px;
+    width: 200px;
+    margin-top: 10px;
+}
+
+.Role .header {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+
+}
+
+.Role h3 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFDAC4;
+    height: 50px;
+    width: 200px;
+    border-radius: 7px;
+}
+
+.Role .table {
+    margin-left: 30px;
+    padding-bottom: 20px;
+}
+
+.Role tr {
+    padding: 10px;
+}
+
+.Role td {
+    padding: 10px;
+    margin-left: 10px;
+    border-bottom: solid 1px;
+
+}
