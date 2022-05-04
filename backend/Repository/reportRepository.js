@@ -22,3 +22,22 @@ function getAllCandidates() {
 
 exports.getAllCandidates = getAllCandidates;
 
+function getCandidateById(id) {
+    return new Promise(async (resolve, reject) => {
+        let y = await connect.connectionfun();
+
+        const results = y.query(`SELECT * FROM candidate WHERE id='${id}'`, (err, rows) => {
+            if (!err) {
+                console.log("The data from user table are: \n", rows);
+                y.release();
+            }
+            else {
+                console.log(err);
+                y.release();
+                reject(err);
+            }
+            resolve(rows)
+        });
+    });
+}
+exports.getCandidateById = getCandidateById
