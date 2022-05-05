@@ -4,7 +4,10 @@ const fs = require('fs');
 const Excel = require('exceljs')
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json());
-var cors = require('cors')
+const cors = require('cors');
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json());
+app.use(cors({ origin: "http://localhost:3000", optionsSuccessStatus: 200 }))
 var bodyParser = require('body-parser');
 app.use(bodyParser.json())
 app.use(cors())
@@ -120,6 +123,11 @@ data.forEach((e, index) => {
 
 })
 
+
+
+
+
+app.use('/candidates', require('../backend/routes/reportRoute'));
 
 
 
