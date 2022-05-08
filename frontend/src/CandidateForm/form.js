@@ -1,5 +1,12 @@
 import { useEffect, useState } from 'react';
 import axios from "axios";
+import { TextAreaFunction } from './components/textAreaFunction';
+import { EmailFunction } from './components/EmailFunction';
+import { InputFunction } from './components/inputFunction';
+import { Select } from './components/select';
+import { TelFunction } from './components/telFunction';
+import { NumberFunction } from './components/numberFunction';
+
 
 export function Form() {
 
@@ -18,6 +25,8 @@ export function Form() {
         <div>
             {fields.map((curr, i) => (<div key={i}> {switchField(curr)} </div>))}
             <input type="submit" />
+
+
         </div>
     )
 
@@ -31,25 +40,27 @@ function switchField(curr) {
             switch (curr.properties.inputType) {
 
                 case "email":
-                    return emailFunction(curr);
+                    return <EmailFunction {...curr} />
+
                 case "tel":
-                    return telFunction(curr);
+                    return <TelFunction {...curr} />;
 
                 case "number":
-                    return numberFunction(curr);
+                    return <NumberFunction {...curr} />;
 
                 default:
-                    return inputFunction(curr);
+                    return <InputFunction {...curr} />
+
             }
 
         case "select":
 
             switch (curr.properties.multiple) {
                 case true:
-                    return selectFunction(curr);
+                    return <Select {...curr} />;
 
                 case false:
-                    return selectFunction(curr);
+                    return <Select {...curr} />;
                 default:
                     break;
 
@@ -58,7 +69,8 @@ function switchField(curr) {
 
 
         case "textArea":
-            return textAreaFunction(curr);
+            <TextAreaFunction {...curr} />
+            break;
 
         default:
             break;
@@ -69,146 +81,31 @@ function switchField(curr) {
 
 
 
-//=============== helping functions - for each field type ===============//
+// //=============== helping functions - for each field type ===============//
 
-//=== input types ===// 
-function inputFunction(curr) {
-    const isRequired = curr.requierd
+// //=== input types ===//
+// function inputFunction(curr) {
+//     const isRequired = curr.requierd
 
-    console.log(curr.required);
-    return (
+//     console.log(curr.required);
+//     return (
 
-        <div className='Input'>
-            <label> {curr.label}</label>
-            {isRequired ?
-                <div>
-                    <input type={curr.properties.inputType} placeholder={curr.label} required />
-                </div>
-                :
-                <input type={curr.type} placeholder={curr.label} />
-            }
+//         <div className='Input'>
+//             <label> {curr.label}</label>
+//             {isRequired ?
+//                 <div>
+//                     <input type={curr.properties.inputType} placeholder={curr.label} required />
+//                 </div>
+//                 :
+//                 <input type={curr.type} placeholder={curr.label} />
+//             }
 
-        </div>
-    )
+//         </div>
+//     )
 
-}
-
-
-function emailFunction(curr) {
-
-    return (
-        <div className='emailInput'>
-            <label> {curr.label}</label>
-
-            <div>
-                <input type="email" placeholder="example@example.com" required />
-            </div>
-
-        </div>
-    )
-}
-
-// Look for nice way to show it //
-function telFunction(curr) {
-
-    return (
-        <div className='telInput'>
-            <label> {curr.label}</label>
-
-            <div>
-                <label>05 </label>
-                <input type="tel" placeholder="0-655-5919" required pattern={curr.properties.pattern} />
-            </div>
-
-        </div>
-    )
-}
+// }
 
 
-//if the user didnt choose number , will open checkbox that asks if the user has no degrees, to do data analyst //
-function numberFunction(curr) {
-
-    return (
-
-        <div className='numberInput'>
-            <label> {curr.label}</label>
-
-            <div>
-                <input type="number" min={curr.properties.min} max={curr.properties.max} />
-
-            </div>
-
-        </div>
 
 
-    )
-}
 
-
-//=========================//
-function selectFunction(curr) {
-    const isRequired = curr.requierd;
-    const isMultiple = curr.properties.multiple;
-    const options = curr.properties.selectOptions
-    return (
-        <div className='selectClass'>
-            <label> {curr.label}</label>
-            {isMultiple ?
-                <div>
-                    {isRequired ?
-
-                        <select required id='options' multiple >
-                            {options.map((curr, i) => (
-                                <option> {curr}</option>
-                            ))}
-
-                        </select>
-                        :
-                        <select id='options' multiple >
-                            {options.map((curr, i) => (
-                                <option>{curr}</option>
-                            ))}
-                        </select>
-
-                    }
-                </div>
-                :
-                <div>
-                    {isRequired ?
-
-                        <select required >
-                            {options.map((curr, i) => (
-                                <option> {curr}</option>
-                            ))}
-
-                        </select>
-
-                        :
-                        <select >
-                            {options.map((curr, i) => (
-                                <option> {curr}</option>
-                            ))}
-                        </select>
-                    }
-                </div>
-            }
-        </div>
-    )
-}
-
-//==========================//
-function textAreaFunction(curr) {
-    const isRequired = curr.requierd
-    return (
-
-        <div className='textAreaClass'>
-            <label> {curr.label}</label>
-            {isRequired ?
-                <textarea cols={25} rows={20} maxLength={500} required />
-                :
-                <textarea cols={25} rows={20} maxLength={500} />
-            }
-        </div>
-
-    )
-}
