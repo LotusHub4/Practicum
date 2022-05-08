@@ -69,6 +69,7 @@ const history = useNavigate();
       var doc_name = request.data.document_name
       var doc_descip = request.data.doc_desc
       console.log(doc_name + " " + doc_descip)
+      setType(questionType)
       setDocName(doc_name)
       setDocDesc(doc_descip)
       setQuestions(question_data)
@@ -127,8 +128,6 @@ const history = useNavigate();
      })
 
      axios.post(`http://localhost:5555/questionnaire/add_questions/${id}`,{
-      "document_name": documentName,
-      "doc_desc": documentDescription,
       "questions": questions,
       
       

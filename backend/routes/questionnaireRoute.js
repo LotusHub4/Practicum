@@ -19,24 +19,12 @@ router.use(function(req, res, next) {
 
 
 
-router.get("/documents/:doc_id",(req,res)=>{
-        
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    fs.readFile(`./files/${req.params.doc_id}.json`, (err, data) => {
-        if (err) throw err;
-        let student = JSON.parse(data);
-        console.log(req.params.doc_id)       
-    res.send(student);
-    });
-
-})
-
-
+//get data by id
 router.get("/data/:doc_id",(req,res)=>{
 var docId=req.params.doc_id;
+console.log("doId " + docId);
 fs.readFile(`./files/${docId}.json`, (err, data) => {
-if (err) throw err;
+if (err) console.log(err);;
 let ques_data = JSON.parse(data);
 console.log(req.params.doc_id)       
 res.send(ques_data);
@@ -47,7 +35,7 @@ const path = require('path');
 
 
 
-
+//get all data
 router.get("/get_all_files",(req,res)=>{
 const directoryPath = path.join(__dirname, '../files');
 fs.readdir(directoryPath, function (err, files) {
@@ -60,6 +48,8 @@ res.send(files);
 
 });
 
+
+//add new data
 router.post(`/add_questions/:doc_id`,(req,res)=>{
 console.log(req.body);
 var docs_data = req.body;
@@ -68,7 +58,7 @@ let data = JSON.stringify(docs_data);
 fs.writeFileSync(`./files/${name}.json`, data);
 })
 
-
+//delete data by id
 router.delete(`/delete_question/:doc_id`,(req,res)=>{
     var name = req.params.doc_id;
     fs.unlinkSync(`./files/${name}.json`);
