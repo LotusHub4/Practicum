@@ -1,10 +1,10 @@
 
 
-export function EmailFunction(emailItems) {
+export function EmailFunction(curr) {
 
     return (
         <div className='emailInput'>
-            <label> {emailItems.label}</label>
+            <label> {curr.label}</label>
 
             <div>
                 <input type="email" placeholder="example@example.com" required />

@@ -25,8 +25,6 @@ export function Form() {
         <div>
             {fields.map((curr, i) => (<div key={i}> {switchField(curr)} </div>))}
             <input type="submit" />
-
-
         </div>
     )
 
