@@ -98,11 +98,41 @@ function addNewField(req) {
                     }
 
                 }
-              
-            
-        
         }
     })
 }
 exports.addNewField = addNewField;
 
+
+function deleteFieldById(id) {
+    return new Promise(async (resolve, reject) => {
+        let pool = await connect.connectionfun();
+        for(const i=0 ; i<req.length;i++)
+        {
+            pool.query(`DELETE FROM questionnairefields WHERE id='${id}'`, (err, rows) => {
+                if (!err) {
+                    console.log('The data from questtionaire table are: \n', rows);
+                    resolve('Delete data is succesfull')
+                    pool.release()
+                } else {
+                    console.log(err);
+                    pool.release()
+                    reject(err);
+                }
+            })
+        
+            pool.query(`DELETE FROM optiontype WHERE idQuestionnaire='${id}'`, (err, rows) => {
+                if (!err) {
+                    console.log('The data from optiontype table are: \n', rows);
+                    resolve('Delete data is succesfull')
+                    pool.release()
+                } else {
+                    console.log(err);
+                    pool.release()
+                    reject(err);
+                }
+            })   
+        }
+    })
+}
+exports.deleteFieldById = deleteFieldById;
