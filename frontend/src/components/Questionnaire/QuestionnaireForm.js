@@ -34,9 +34,11 @@ import { useStateValue } from './StateProvider'
 import { actionTypes } from './reducer'
 import { useParams } from "react-router";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 export default function QuestionnaireForm() {
-
+const history = useNavigate();
 
   console.log(useStateValue());
   const [{ }, dispatch] = useStateValue();
@@ -60,8 +62,8 @@ export default function QuestionnaireForm() {
 
   useEffect(() => {
     async function data_adding() {
-      var request = await axios.get(`http://localhost:5555/data/${id}`);
-      console.log("sudeep")
+      var request = await axios.get(`http://localhost:5555/questionnaire/data/${id}`);
+      console.log("sudeep" + request);
       var question_data = request.data.questions;
       console.log(question_data)
       var doc_name = request.data.document_name
@@ -124,7 +126,7 @@ export default function QuestionnaireForm() {
 
      })
 
-     axios.post(`http://localhost:5555/add_questions/${id}`,{
+     axios.post(`http://localhost:5555/questionnaire/add_questions/${id}`,{
       "document_name": documentName,
       "doc_desc": documentDescription,
       "questions": questions,
@@ -132,6 +134,8 @@ export default function QuestionnaireForm() {
       
   
     })
+
+    history("/")
   }
 
 
@@ -166,7 +170,11 @@ export default function QuestionnaireForm() {
     let qs = [...questions];
     if (questions.length > 1) {
       qs.splice(i, 1);
+    }else{
+      axios.delete(`http://localhost:5555/questionnaire/delete_question/${id}`)
+      history("/")
     }
+  
     setQuestions(qs)
   }
 

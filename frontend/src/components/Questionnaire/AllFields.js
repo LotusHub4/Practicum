@@ -9,7 +9,7 @@ export default function AllFields() {
     useEffect(() => {
         async function filenames(){
             
-            var request = await axios.get("http://localhost:5555/get_all_files")
+            var request = await axios.get("http://localhost:5555/questionnaire/get_all_files")
             let files = request.data;
             setFiles(files)
            
