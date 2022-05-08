@@ -11,7 +11,7 @@ export default function NavigateToField({name}) {
 
     function navigate_to(docname){
         var fname=docname.split(".");
-        history.push("/form/" + fname[0])
+        history("/form/" + fname[0])
 
     }
     return (
