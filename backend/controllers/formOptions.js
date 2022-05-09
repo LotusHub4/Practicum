@@ -1,48 +1,42 @@
 //handle input field
-function handleInput(field){
+function handleField(name,type,label,funcName,required,properties){
     let inputObj=
     {
-        "name":"",
-        "type":"input",
-        "label":"",
-        "funcName":"",
-        "requierd":field.requierd,
-        "properties":
-            {
-                "inputType":""
-            }
+        "name":name,
+        "type":type,
+        "label":label,
+        "funcName":funcName,
+        "required":required,
+        "properties":properties
     }
     return inputObj;
 }
+exports.handleField = handleField
 
-//handle select field
-function handleSelect(field,selectOptions){
-   let selectObj=
-   {
-        "name":"",
-        "type":"select",
-        "label":"",
-        "funcName":"",
-        "requierd":field.requierd,
-        "properties":
-        {
-            "selectOptions":selectOptions,
-            "multiple":true
+function restoreName(name){
+    name=name.replace(/\s/g, '');
+    name=name.charAt(0).toLowerCase()+name.substr(1);
+    returnname
+}
+exports.restoreName = restoreName
+
+async function getAllOptions(id){
+    let y1 = await connectionhelper.connectionfun()
+    y1.query(`SELECT * FROM questionnairfields WHERE idQuestionnair ='${id}' `, (err, rows) => {
+        if (!err) {
+            console.log('The data from jopposts table are: \n', rows)
+            y1.release()
+            if (Object.keys(rows).length > 0) {
+                return rows;
+            }
+            else {
+                resolve(false)
+            }
+        } else {
+            console.log(err)
+            y1.release()
+            reject(err);
         }
-   } 
-   return selectObj;
+    })
 }
-
-//handle textarea field
-function handleTextarea(field){
-    let textareaObj=
-    {
-        "name":"",
-        "type":"textarea",
-        "label":"",
-        "funcName":"",
-        "requierd":true,
-        "properties":{}
-    }
-    return textareaObj;
-}
+exports.getAllOptions = getAllOptions
