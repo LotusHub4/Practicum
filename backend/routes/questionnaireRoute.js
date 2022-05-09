@@ -17,6 +17,7 @@ router.use(function(req, res, next) {
   });
 
 
+  
 
 
 //get data by id
@@ -25,9 +26,9 @@ var docId=req.params.doc_id;
 console.log("doId " + docId);
 fs.readFile(`./files/${docId}.json`, (err, data) => {
 if (err) console.log(err);;
-let ques_data = JSON.parse(data);
+// let ques_data = JSON.parse(data);
 console.log(req.params.doc_id)       
-res.send(ques_data);
+res.send(data);
 });
 })
 

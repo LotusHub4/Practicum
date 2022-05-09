@@ -1,10 +1,6 @@
 export const initialState = {
-    questions:[{questionText: "Question", questionType:"radio", options : [{optionText: "Option 1"}], open: true, required:false}],
+    questions:[{questionText: "Question", questionType:"radio",type:"text", options : [{optionText: ""}], open: true, required:false}],
     questionType:"radio",
-    doc_name:"Untitled form ",
-    doc_desc:" add the description "
-
-
 }
 
 export const actionTypes = {
