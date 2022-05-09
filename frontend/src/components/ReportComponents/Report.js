@@ -20,7 +20,8 @@ export function Report(){
   const handleReset = () => {
     loadUserData();  
   };
-  const handleSearch = async (e) => {e.preventDefault(); 
+  const handleSearch = async (e) => 
+  {e.preventDefault(); 
     console.log(value);
   return await axios.get(`http://localhost:5555/candidates/` + `${value}`)
   .then((response) => {

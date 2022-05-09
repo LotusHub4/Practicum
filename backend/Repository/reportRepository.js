@@ -24,10 +24,17 @@ exports.getAllCandidates = getAllCandidates;
 
 //===============================================================
 
+
 function getCandidatesValue(value) {
     return new Promise(async (resolve, reject) => {
         let y = await connect.connectionfun()
-        const candidate = y.query(`SELECT * FROM candidate WHERE firstName = '${value}'`, (err, rows) => {
+        const candidate = y.query(`SELECT * FROM candidate WHERE 
+        firstName LIKE '%${value}%' 
+        OR lastName  LIKE '%${value}%' 
+        OR maritalStatus  LIKE '%${value}%' 
+        OR interest LIKE  '%${value}%' 
+        OR mathLevel LIKE '%${value}%' 
+        OR englishLevel  LIKE '%${value}%'`, (err, rows) => {
             if (!err) {
                 console.log('The data from candidates table are: \n', rows)
                 y.release()
