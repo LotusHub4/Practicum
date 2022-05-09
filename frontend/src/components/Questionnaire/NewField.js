@@ -12,7 +12,7 @@ export default function NewField() {
         console.log(create_form_id)  
 
         history("/form/" + create_form_id)
-    var questions_list=[{questionText: "Question", questionType:"radio", options : [{optionText: "Option 1"}], open: true, required:false}]
+    var questions_list=[{questionText: "Question", questionType:"radio", type:"text", options : [{optionText: ""}], open: true, required:false}]
     
         axios.post(`http://localhost:5555/questionnaire/add_questions/${create_form_id}`,{
             "document_name": "untitled_form",
