@@ -9,6 +9,7 @@ app.use(cors({ origin: "http://localhost:3000", optionsSuccessStatus: 200 }))
 
 const questionnaireRoutes = require('./routes/questionnaireRoute');
 app.use('/questionnaire', questionnaireRoutes);
+app.use('/candidateForm', require('./routes/candidateRouts'));
 
 
 app.use('/candidates', require('../backend/routes/reportRoute'));
