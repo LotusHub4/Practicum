@@ -20,6 +20,43 @@ exports.fields =
             "inputType": "text"
          }
       },
+
+      {
+         "name": "village",
+         "type": "input",
+         "label": "City:",
+         "funcName": "isvillageExist",
+         "requierd": true,
+         "properties": {
+            "inputType": "search"
+         }
+      },
+      {
+         "name": "birthDate",
+         "type": "input",
+         "label": "Birth Date:",
+         "funcName": "isValidDate",
+         "requierd": true,
+         "properties": {
+            "inputType": "date"
+         }
+      },
+      {
+         "name": "maritalStatus",
+         "type": "select",
+         "label": "Status:",
+         "funcName": "",
+         "requierd": true,
+         "properties": {
+            "selectOptions": [
+               "single",
+               "married",
+               "divorced",
+               "widowed"
+            ],
+            "multiple": false
+         }
+      },
       {
          "name": "mail",
          "type": "input",
@@ -55,106 +92,7 @@ exports.fields =
             "multiple": true
          }
       },
-      {
-         "name": "maritalStatus",
-         "type": "select",
-         "label": "Status:",
-         "funcName": "",
-         "requierd": true,
-         "properties": {
-            "selectOptions": [
-               "single",
-               "married",
-               "divorced",
-               "widowed"
-            ],
-            "multiple": false
-         }
-      },
-      {
-         "name": "village",
-         "type": "input",
-         "label": "City:",
-         "funcName": "isvillageExist",
-         "requierd": true,
-         "properties": {
-            "inputType": "search"
-         }
-      },
-      {
-         "name": "birthDate",
-         "type": "input",
-         "label": "Birth Date:",
-         "funcName": "isValidDate",
-         "requierd": true,
-         "properties": {
-            "inputType": "date"
-         }
-      },
-      {
-         "name": "mathLevel",
-         "type": "input",
-         "label": "Math Level:",
-         "funcName": "checkRange",
-         "requierd": false,
-         "properties": {
-            "inputType": "number",
-            "min": "3",
-            "max": "5"
-         }
-      },
-      {
-         "name": "mathGrade",
-         "type": "input",
-         "label": "Math Grade:",
-         "funcName": "checkRange",
-         "requierd": false,
-         "properties": {
-            "inputType": "text"
-         }
-      },
-      {
-         "name": "englishLevel",
-         "type": "input",
-         "label": "English Level:",
-         "funcName": "checkRange",
-         "requierd": false,
-         "properties": {
-            "inputType": "number",
-            "min": "3",
-            "max": "5"
-         }
-      },
-      {
-         "name": "englishGrade",
-         "type": "input",
-         "label": "English Grade:",
-         "funcName": "checkRange",
-         "requierd": false,
-         "properties": {
-            "inputType": "text"
-         }
-      },
-      {
-         "name": "psychometry",
-         "type": "input",
-         "label": "Psychometry:",
-         "funcName": "numOfDigits",
-         "requierd": false,
-         "properties": {
-            "inputType": "text"
-         }
-      },
-      {
-         "name": "travelling",
-         "type": "input",
-         "label": "Ability To Travel To Dalia:",
-         "funcName": "",
-         "requierd": true,
-         "properties": {
-            "inputType": "checkbox"
-         }
-      },
+
       {
          "name": "morningWork",
          "type": "input",
@@ -181,6 +119,16 @@ exports.fields =
          }
       },
       {
+         "name": "travelling",
+         "type": "input",
+         "label": "Ability To Travel To Dalia:",
+         "funcName": "",
+         "requierd": true,
+         "properties": {
+            "inputType": "checkbox"
+         }
+      },
+      {
          "name": "studiesCombined",
          "type": "input",
          "label": "Still A Student",
@@ -200,6 +148,62 @@ exports.fields =
 
          }
       },
+      {
+         "name": "mathLevel",
+         "type": "input",
+         "label": "Math Level:",
+         "funcName": "checkRange",
+         "requierd": false,
+         "properties": {
+            "inputType": "number",
+            "min": "3",
+            "max": "5"
+         }
+      },
+
+      {
+         "name": "englishLevel",
+         "type": "input",
+         "label": "English Level:",
+         "funcName": "checkRange",
+         "requierd": false,
+         "properties": {
+            "inputType": "number",
+            "min": "3",
+            "max": "5"
+         }
+      },
+      {
+         "name": "mathGrade",
+         "type": "input",
+         "label": "Math Grade:",
+         "funcName": "checkRange",
+         "requierd": false,
+         "properties": {
+            "inputType": "text"
+         }
+      },
+      {
+         "name": "englishGrade",
+         "type": "input",
+         "label": "English Grade:",
+         "funcName": "checkRange",
+         "requierd": false,
+         "properties": {
+            "inputType": "text"
+         }
+      },
+      {
+         "name": "psychometry",
+         "type": "input",
+         "label": "Psychometry:",
+         "funcName": "numOfDigits",
+         "requierd": false,
+         "properties": {
+            "inputType": "text"
+         }
+      },
+
       {
          "name": "CV",
          "type": "input",
@@ -231,4 +235,3 @@ exports.fields =
          }
       }
    ];
-

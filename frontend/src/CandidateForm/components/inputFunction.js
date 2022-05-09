@@ -1,19 +1,30 @@
 import React from 'react'
+import { useState } from 'react';
+import '../form.css'
 
-export function InputFunction(curr) {
-    const isRequired = curr.requierd
+export function InputFunction(props) {
+    const isRequired = props.curr.requierd
 
-    console.log(curr.required);
+    const [input, setInput] = useState({
+        name: props.curr.name,
+        value: ""
+    });
+
+
+    console.log(input);
+    props.func(input)
+
     return (
 
-        <div className='Input'>
-            <label> {curr.label}</label>
+        <div className='divAroundAllInput'>
+            <label className='aroundLabel'> {props.curr.label}</label>
             {isRequired ?
-                <div>
-                    <input type={curr.properties.inputType} placeholder={curr.label} required />
-                </div>
+
+
+                <input className='divAroundInput' type={props.curr.properties.inputType} placeholder={props.curr.label} required onBlur={(event) => setInput({ name: props.curr.name, value: event.target.value })} />
                 :
-                <input type={curr.type} placeholder={curr.label} />
+                <input type={props.curr.type} placeholder={props.curr.label} onBlur={(event) => setInput({ name: props.curr.name, value: event.target.value })} />
+
             }
 
         </div>

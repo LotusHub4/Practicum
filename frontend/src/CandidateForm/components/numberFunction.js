@@ -1,13 +1,26 @@
 
 //if the user didnt choose number , will open checkbox that asks if the user has no degrees, to do data analyst //
 
-export function NumberFunction(curr) {
-    return (
-        <div className='numberInput'>
-            <label> {curr.label}</label>
+import { useState } from 'react';
+import '../form.css'
 
-            <div>
-                <input type="number" min={curr.properties.min} max={curr.properties.max} />
+
+export function NumberFunction(props) {
+
+    const [number, setNumber] = useState({
+        name: props.curr.name,
+        value: ""
+    });
+
+
+    props.func(number)
+
+    return (
+        <div className='divAroundAllNumber'>
+            <label className='numberLabel'> {props.curr.label}</label>
+
+            <div className='numberInput'>
+                <input type="number" min={props.curr.properties.min} max={props.curr.properties.max} onBlur={(event) => setNumber({ name: props.curr.name, value: event.target.value })} />
 
             </div>
 
