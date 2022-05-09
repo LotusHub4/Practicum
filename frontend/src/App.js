@@ -4,7 +4,7 @@ import Header from "./components/Questionnaire/Header";
 import AllFields from './components/Questionnaire/AllFields';
 import AddField from './components/Questionnaire/AddField';
 import NewField from './components/Questionnaire/NewField';
-// import { Report } from './ReportComponents/Report';
+import { Report } from './components/ReportComponents/Report';
 
 function App() {
   return (
@@ -12,12 +12,14 @@ function App() {
       <Router>
         <Routes>
           <Route path="/form/:id" element={<AddField />} />
-          <Route exact path="/" element={<><Header/><NewField /><AllFields /></>}/>  
+          <Route exact path="/questionnaire" element={<><Header /><NewField /><AllFields /></>} />
+          <Route exact path="/report" element={<Report />} />
+
         </Routes>
       </Router>
-      
 
-      {/* <Report/> */}
+
+
     </div>
   );
 }
