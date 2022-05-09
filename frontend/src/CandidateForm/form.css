@@ -1,0 +1,246 @@
+.divAroundAll {
+    width: 800px;
+    transform: translate(42%, 20%);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(8, 7, 16, 0.5);
+    background-color: #fff9f5a2;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+
+.divAroundAll input[type=submit] {
+    background-color: #ffdac4;
+    border: none;
+    padding: 5px 8px 5px 8px;
+    margin: 5px;
+    border-radius: 5px;
+    width: 300px;
+    height: 40px;
+    font-size: large;
+    transform: translate(50%, 5%);
+
+}
+
+/* ________divAroundAllInput___________ */
+.divAroundAll .divAroundAllForm .divAroundAllInput {
+    padding: 5px;
+    align-items: center;
+    outline: 0;
+    display: grid;
+
+}
+
+.divAroundAll .divAroundAllForm .divAroundAllInput .aroundLabel {
+    font-size: larger;
+    margin-right: 10px;
+
+}
+
+.divAroundAll .divAroundAllForm .divAroundAllInput input {
+    width: 300px;
+    height: 30px;
+    font-size: large;
+    background-color: white;
+    border-radius: 5px;
+    margin: 5px;
+    border: 1px black solid;
+    box-shadow: 1px 1px 2px 1px rgba(61, 58, 58, 0.472);
+    padding: 5px 8px 5px 8px;
+
+}
+
+.divAroundAll .divAroundAllForm .divAroundAllInput .divAroundInput input[type=search] {
+    width: 320px;
+    height: 45px;
+    font-size: large;
+    background-color: white;
+    border-radius: 5px;
+    margin: 5px;
+    border: 1px black solid;
+    box-shadow: 1px 1px 2px 1px rgba(61, 58, 58, 0.472);
+    padding: 5px 8px 5px 8px;
+}
+
+.divAroundAll .divAroundAllForm .divAroundAllInput input[type=checkbox] {
+    width: 30px;
+    height: 40px;
+    font-size: large;
+    box-shadow: none;
+
+}
+
+/* ___________________ */
+
+
+
+/* ________Aroundemail___________ */
+.divAroundAll .divAroundAllForm .divAllemail {
+    display: grid;
+    padding: 5px;
+    align-items: center;
+
+
+
+}
+
+.divAroundAll .divAroundAllForm .divAllemail .emailLabel {
+    font-size: larger;
+    margin-right: 10px;
+
+}
+
+.divAroundAll .divAroundAllForm .divAllemail .emailInput input {
+    width: 300px;
+    height: 33px;
+    font-size: large;
+    background-color: white;
+    border-radius: 5px;
+    margin: 5px;
+    border: 1px black solid;
+    box-shadow: 1px 1px 2px 1px rgba(61, 58, 58, 0.472);
+    padding: 5px 8px 5px 8px;
+
+}
+
+/* ___________________ */
+
+
+
+/* _______Aroundtel____________ */
+.divAroundAll .divAroundAllForm .divAllTel {
+    display: grid;
+    padding: 5px;
+    align-items: center;
+    transform: translate(40%, 5%);
+
+}
+
+.divAroundAll .divAroundAllForm .divAllTel .telLabel {
+    font-size: larger;
+    margin-right: 10px;
+
+}
+
+.divAroundAll .divAroundAllForm .divAllTel .telInput input {
+    width: 300px;
+    height: 33px;
+    font-size: large;
+    background-color: white;
+    border-radius: 5px;
+    margin: 5px;
+    margin-left: 0px;
+    border: 1px black solid;
+    box-shadow: 1px 1px 2px 1px rgba(61, 58, 58, 0.472);
+    padding: 5px 8px 5px 8px;
+}
+
+.divAroundAll .divAroundAllForm .divAllTel .telInput label {
+    font-size: x-large;
+
+}
+
+/* ___________________ */
+
+
+
+/* ________Aroundselect___________ */
+
+.divAroundAll .divAroundAllForm .selectClass {
+    display: grid;
+    padding: 5px;
+    align-items: center;
+
+}
+
+.divAroundAll .divAroundAllForm .selectClass .selectLabel {
+    font-size: larger;
+    margin-right: 10px;
+
+}
+
+.divAroundAll .divAroundAllForm .selectClass .selectClassinput select {
+    width: 320px;
+    height: 45px;
+    font-size: large;
+    background-color: white;
+    border-radius: 5px;
+    margin: 5px;
+    border: 1px black solid;
+    box-shadow: 1px 1px 2px 1px rgba(61, 58, 58, 0.472);
+    padding: 4.17px 3px 5px 3px;
+}
+
+.divAroundAll .divAroundAllForm .selectClass .selectClassinput #options {
+    width: 320px;
+    height: 55px;
+}
+
+/* ___________________ */
+
+
+
+/* _______AroundtextArea____________ */
+.divAroundAll .divAroundAllForm .textAreaClass {
+    padding: 5px;
+    align-items: center;
+
+}
+
+.divAroundAll .divAroundAllForm .textAreaClass .textAreaLabel {
+    font-size: larger;
+    margin-right: 10px;
+    width: 300px;
+    text-align: left;
+}
+
+.divAroundAll .divAroundAllForm .textAreaClass textarea {
+    width: 750px;
+    height: 100px;
+    font-size: large;
+    margin: 5px;
+    background-color: white;
+    border-radius: 5px;
+    margin-left: 0px;
+    border: 1px black solid;
+    box-shadow: 1px 1px 2px 1px rgba(61, 58, 58, 0.472);
+    padding: 5px 8px 5px 8px;
+}
+
+/* ___________________ */
+
+
+
+
+/* _________Aroundnumber__________ */
+.divAroundAll .divAroundAllForm .divAroundAllNumber {
+    display: grid;
+    padding: 5px;
+    align-items: center;
+
+}
+
+.divAroundAll .divAroundAllForm .divAroundAllNumber .numberLabel {
+    font-size: larger;
+    margin-right: 10px;
+}
+
+.divAroundAll .divAroundAllForm .divAroundAllNumber .numberInput input {
+    width: 300px;
+    height: 30px;
+    font-size: large;
+    background-color: white;
+    border-radius: 5px;
+    margin: 5px;
+    border: 1px black solid;
+    box-shadow: 1px 1px 2px 1px rgba(61, 58, 58, 0.472);
+    padding: 5px 8px 5px 8px;
+}
+
+/* ___________________ */
+.input:focus {
+    outline: none;
+}

@@ -1,35 +1,52 @@
 //=========================//
 
 import React from 'react'
+import { MdOutlineExpandMore } from 'react-icons/md';
+import { useEffect, useState } from 'react';
+import '../form.css'
+
 
 export function Select(curr) {
-    const isRequired = curr.requierd;
-    const isMultiple = curr.properties.multiple;
-    const options = curr.properties.selectOptions
+    let [more, setOpen] = useState(false)
+    const isRequired = curr.curr.requierd;
+    const isMultiple = curr.curr.properties.multiple;
+    const options = curr.curr.properties.selectOptions;
+
     return (
         <div className='selectClass'>
-            <label> {curr.label}</label>
+            <label className='selectLabel'> {curr.curr.label}</label>
             {isMultiple ?
-                <div>
+                <div className='selectClassinput'>
                     {isRequired ?
 
-                        <select required id='options' multiple >
-                            {options.map((curr, i) => (
-                                <option> {curr}</option>
-                            ))}
+                        <span className='requiredCheckboxDiv'> {<MdOutlineExpandMore className='moreIcontrip' onClick={() => { setOpen(!more) }}></MdOutlineExpandMore>}
+                            {
+                                more ? options.map((curr, i) => (
+                                    <div >
+                                        <input type="checkbox" className='myCheckBox' value={curr.name} /> <label> {curr}</label>
+                                    </div>
+                                )) : ""
 
-                        </select>
+                            }
+                        </span>
+
                         :
-                        <select id='options' multiple >
-                            {options.map((curr, i) => (
-                                <option>{curr}</option>
-                            ))}
-                        </select>
+                        <span className='requiredCheckboxDiv'> {<MdOutlineExpandMore className='moreIcontrip' onClick={() => { setOpen(!more) }}></MdOutlineExpandMore>}
+                            {
+                                more ? options.map((curr, i) => (
+                                    <div>
+                                        <input type="checkbox" class='myCheckBox' value={curr.name} /> <label> {curr}</label>
+                                    </div>
+                                )) : ""
+
+                            }
+                        </span>
+
 
                     }
                 </div>
                 :
-                <div>
+                <div className='selectClassinput'>
                     {isRequired ?
 
                         <select required >

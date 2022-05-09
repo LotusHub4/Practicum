@@ -1,14 +1,16 @@
+import '../form.css'
 
 export function TextAreaFunction(curr) {
-    const isRequired = curr.requierd
+    const isRequired = curr.curr.requierd
+
     return (
 
         <div className='textAreaClass'>
-            <label> {curr.label}</label>
+            <label className='textAreaLabel'> {curr.curr.label}</label>
             {isRequired ?
-                <textarea cols={25} rows={20} maxLength={500} required />
+                <textarea maxLength={500} required />
                 :
-                <textarea cols={25} rows={20} maxLength={500} />
+                <textarea maxLength={500} />
             }
         </div>
 
