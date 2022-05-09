@@ -22,7 +22,29 @@ function getAllCandidates() {
 
 exports.getAllCandidates = getAllCandidates;
 
+//===============================================================
 
+function getCandidatesValue(value) {
+    return new Promise(async (resolve, reject) => {
+        let y = await connect.connectionfun()
+        const candidate = y.query(`SELECT * FROM candidate WHERE firstName = '${value}'`, (err, rows) => {
+            if (!err) {
+                console.log('The data from candidates table are: \n', rows)
+                y.release()
+            } else {
+                console.log(err)
+                y.release()
+                reject(err);
+            }
+            resolve(rows)
+            console.log(rows, "the data appear");
+
+        })
+    })
+}
+
+exports.getCandidatesValue = getCandidatesValue;
+//=============================================================
 function getCandidateById(id) {
     return new Promise(async (resolve, reject) => {
         let y = await connect.connectionfun();

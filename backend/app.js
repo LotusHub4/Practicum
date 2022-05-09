@@ -1,7 +1,10 @@
 var express = require('express');
 var app = express();
+const cors = require('cors');
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json());
+app.use(cors({ origin: "http://localhost:3000", optionsSuccessStatus: 200 }))
+
 
 
 const questionnaireRoutes = require('./routes/questionnaireRoute');
