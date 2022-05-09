@@ -33,13 +33,14 @@ export function Report(){
 
   return(
     <div className='container'>
+    <img class='lotus-logo' src='./lotuslogo2.PNG'/>
     <MDBContainer className='mdbcontainer'>
       <form className='searchform' onSubmit={handleSearch}>
-        <input type="text" className='searchinput' placeholder='search' 
+        <input type="text" className='searchinput' placeholder='search...' 
         value={value} onChange={(e) => setValue(e.target.value)}></input>
     
-      <MDBBtn type='submit' className='searchbtn'>Search</MDBBtn>
-      <MDBBtn className='resetbtn' onClick={() => handleReset()}>Reset</MDBBtn>
+      <button type='submit' className='searchbtn'>Search</button>
+      <button className='resetbtn' onClick={() => handleReset()}>Reset</button>
       </form>
       <div className='mdbrow'>
         <h2 className='candidateword'>
@@ -70,7 +71,7 @@ export function Report(){
         ):(
            data.map((item,index) => (
              <MDBTableBody className='MDBTableBody' key={index}>
-               <tr>
+               <tr className='rowstr'>
                  <th scope='row' className='numberItem'>{index + 1}</th>
                  <td>{item.firstName} {item.lastName}</td>
                  <td>{item.interest}</td>
