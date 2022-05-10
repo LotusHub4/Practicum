@@ -18,13 +18,39 @@ import { checkImgEnds } from '../tests';
 
 export function SwitchFields(props) {
 
+    console.log(props);
 
     function pullFieldData(field) {
 
+        //This test is not working ! i need to do it better 
         if (field.value !== "" && !props.candidate.includes(field)) {
-            props.candidate.push(field);
-        }
+            console.log(props.candidate);
+            if (props.candidate.length === 0) {
+                props.candidate.push(field);
+            }
+            else {
+                let flag = false
+                for (let i = 0; i < props.candidate.length; i++) {
 
+                    if (props.candidate[i].name === field.name) {
+                        let obj = props.candidate[props.candidate.length - 1];
+                        props.candidate[props.candidate.length - 1] = props.candidate[i];
+                        props.candidate[i] = obj;
+
+                        props.candidate.pop()
+                        props.candidate.push(field)
+                        console.log(props);
+                        flag = true
+                    }
+
+                }
+                if (!flag) {
+                    props.candidate.push(field);
+                }
+
+            }
+
+        }
     }
 
     switch (props.curr.type) {
@@ -50,17 +76,17 @@ export function SwitchFields(props) {
         case "select":
             switch (props.curr.properties.multiple) {
                 case true:
-                    return <Select curr={props.curr} />;
+                    return <Select curr={props.curr} func={pullFieldData} />;
 
                 case false:
-                    return <Select curr={props.curr} />;
+                    return <Select curr={props.curr} func={pullFieldData} />;
                 default:
                     break;
             }
             break;
 
         case "textArea":
-            return <TextAreaFunction curr={props.curr} />
+            return <TextAreaFunction curr={props.curr} func={pullFieldData} />
 
 
         default:

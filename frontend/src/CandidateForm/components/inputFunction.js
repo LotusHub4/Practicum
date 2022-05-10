@@ -7,7 +7,9 @@ export function InputFunction(props) {
 
     const [input, setInput] = useState({
         name: props.curr.name,
-        value: ""
+        value: "",
+        label: props.curr.label,
+        type: ""
     });
 
 
@@ -21,12 +23,10 @@ export function InputFunction(props) {
             {isRequired ?
 
 
-                <input className='divAroundInput' type={props.curr.properties.inputType} placeholder={props.curr.label} required onBlur={(event) => setInput({ name: props.curr.name, value: event.target.value })} />
+                <input className='divAroundInput' type={props.curr.properties.inputType} placeholder={props.curr.label} required onBlur={(event) => setInput({ ...input, value: event.target.value })} />
                 :
-                <input type={props.curr.type} placeholder={props.curr.label} onBlur={(event) => setInput({ name: props.curr.name, value: event.target.value })} />
-
+                <input type={props.curr.type} placeholder={props.curr.label} onBlur={(event) => setInput({ ...input, value: event.target.value })} />
             }
-
         </div>
     )
 }

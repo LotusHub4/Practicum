@@ -6,15 +6,27 @@ import { useEffect, useState } from 'react';
 import '../form.css'
 
 
-export function Select(curr) {
+export function Select(props) {
     let [more, setOpen] = useState(false)
-    const isRequired = curr.curr.requierd;
-    const isMultiple = curr.curr.properties.multiple;
-    const options = curr.curr.properties.selectOptions;
+    const isRequired = props.curr.requierd;
+    const isMultiple = props.curr.properties.multiple;
+    const options = props.curr.properties.selectOptions;
+
+
+    const [select, setSelect] = useState({
+        name: props.curr.name,
+        value: [],
+        label: props.curr.label,
+        type: isMultiple ? "Multiple" : ""
+    });
+
+
+    console.log(select);
+    props.func(select)
 
     return (
         <div className='selectClass'>
-            <label className='selectLabel'> {curr.curr.label}</label>
+            <label className='selectLabel'> {props.curr.label}</label>
             {isMultiple ?
                 <div className='selectClassinput'>
                     {isRequired ?
@@ -23,7 +35,7 @@ export function Select(curr) {
                             {
                                 more ? options.map((curr, i) => (
                                     <div >
-                                        <input type="checkbox" className='myCheckBox' value={curr.name} /> <label> {curr}</label>
+                                        <input type="checkbox" className='myCheckBox' value={curr.name} onClick={() => setSelect({ ...select, value: [].push(curr.name) })} /> <label> {curr}</label>
                                     </div>
                                 )) : ""
 
@@ -35,7 +47,7 @@ export function Select(curr) {
                             {
                                 more ? options.map((curr, i) => (
                                     <div>
-                                        <input type="checkbox" class='myCheckBox' value={curr.name} /> <label> {curr}</label>
+                                        <input type="checkbox" class='myCheckBox' value={curr.name} onChange={() => setSelect({ ...select, value: [].push(curr.name) })} /> <label> {curr}</label>
                                     </div>
                                 )) : ""
 
@@ -49,7 +61,7 @@ export function Select(curr) {
                 <div className='selectClassinput'>
                     {isRequired ?
 
-                        <select required >
+                        <select required onChange={(event) => setSelect({ ...select, value: event.target.value })}>
                             {options.map((curr, i) => (
                                 <option> {curr}</option>
                             ))}
@@ -57,7 +69,7 @@ export function Select(curr) {
                         </select>
 
                         :
-                        <select >
+                        <select onChange={(event) => setSelect({ ...select, value: event.target.value })}>
                             {options.map((curr, i) => (
                                 <option> {curr}</option>
                             ))}
