@@ -28,7 +28,7 @@ function getOptionById(id) {
     return new Promise(async (resolve, reject) => {
         let pool = await connect.connectionfun();
 
-        pool.query(`SELECT option
+        pool.query(`SELECT id,option
            FROM optiontype where idQuestionnaire=${id} ;`, (err, rows) => {
             if (!err) {
                 pool.release();
@@ -100,18 +100,18 @@ exports.addNewOption = addNewOption;
 function deleteFieldById(id) {
     return new Promise(async (resolve, reject) => {
         let pool = await connect.connectionfun();
-            pool.query(`DELETE FROM questionnairfields WHERE id=${id}`, (err, rows) => {
-                if (!err) {
-                    console.log('The data from questtionaire table are: \n', rows);
-                    resolve('Delete data is succesfull')
-                    pool.release()
-                } else {
-                    console.log(err);
-                    pool.release()
-                    reject(err);
-                }
-            })
-     
+        pool.query(`DELETE FROM questionnairfields WHERE id=${id}`, (err, rows) => {
+            if (!err) {
+                console.log('The data from questtionaire table are: \n', rows);
+                resolve('Delete data is succesfull')
+                pool.release()
+            } else {
+                console.log(err);
+                pool.release()
+                reject(err);
+            }
+        })
+
     })
 }
 exports.deleteFieldById = deleteFieldById;
@@ -119,18 +119,18 @@ exports.deleteFieldById = deleteFieldById;
 function deleteOptionById(id) {
     return new Promise(async (resolve, reject) => {
         let pool = await connect.connectionfun();
-            pool.query(`DELETE FROM optiontype WHERE idQuestionnaire=${id}`, (err, rows) => {
-                if (!err) {
-                    console.log('The data from optiontype table are: \n', rows);
-                    resolve('Delete data is succesfull')
-                    pool.release()
-                } else {
-                    console.log(err);
-                    pool.release()
-                    reject(err);
-                }
-            })
-     
+        pool.query(`DELETE FROM optiontype WHERE idQuestionnaire=${id}`, (err, rows) => {
+            if (!err) {
+                console.log('The data from optiontype table are: \n', rows);
+                resolve('Delete data is succesfull')
+                pool.release()
+            } else {
+                console.log(err);
+                pool.release()
+                reject(err);
+            }
+        })
+
     })
 }
 exports.deleteOptionById = deleteOptionById;
@@ -140,10 +140,10 @@ exports.deleteOptionById = deleteOptionById;
 function updateFieldById(id, req) {
     return new Promise(async (resolve, reject) => {
         let pool = await connect.connectionfun();
-        for (const i = 0; i < req.length; i++) {
+        for (let i = 0; i < req.length; i++) {
             pool.query(`UPDATE questionnairfields
-            SET nameField = req[i].questionText, typeField = req[i].type,required = req[i].required
-            WHERE id='${id}';`, (err, rows) => {
+            SET nameField = '${req[i].questionText}', typeField = '${req[i].type}',required = ${req[i].required}
+            WHERE id=${id};`, (err, rows) => {
                 if (!err) {
                     console.log('The data from questtionNaire table are: \n', rows);
                     resolve('Delete data is succesfull')
@@ -154,26 +154,54 @@ function updateFieldById(id, req) {
                     reject(err);
                 }
             })
-            if (req[i].options[0].optionText !== "") {
-                for (const j = 0; j < req.options.length; j++) {
 
-                    pool.query(`UPDATE optiontype
-            SET option=req.options[j]
-            WHERE idQuestionnaire='${id}';`, (err, rows) => {
-                        if (!err) {
-                            console.log('The data from optiontype table are: \n', rows);
-                            resolve('Update data is succesfull')
-                            pool.release()
-                        } else {
-                            console.log(err);
-                            pool.release()
-                            reject(err);
-                        }
-                    })
-                }
-            }
         }
 
     })
 }
 exports.updateFieldById = updateFieldById;
+
+function updateOptionById(id,req) {
+    return new Promise(async (resolve, reject) => {
+        let pool = await connect.connectionfun();
+        for (let i = 0; i < req.length; i++) {
+
+            if(req[i].id !== undefined)
+            {
+
+            pool.query(`UPDATE optiontype
+            SET option='${req[i].option}'
+            WHERE id=${req[i].id};`, (err, rows) => {
+                if (!err) {
+                    console.log('The data from optiontype table are: \n', rows);
+                    resolve('Update data is succesfull')
+                    pool.release()
+                } else {
+                    console.log(err);
+                    pool.release()
+                    reject(err);
+                }
+            })
+        }else{
+            console.log("ttt"  + req[i].option);
+
+            pool.query(`INSERT INTO optiontype (option,idQuestionnaire) VALUES ('${req[i].option}',${id})`), (err, rows) => {
+                if (!err) {
+
+                    resolve('your insert data is succesfull')
+                    pool.release()
+                } else {
+
+
+                    console.log(err);
+                    pool.release()
+                    reject(err);
+                }
+            }
+        }
+        }
+
+
+    })
+}
+exports.updateOptionById = updateOptionById;
