@@ -47,9 +47,11 @@ export default function QuestionnaireForm() {
 
   const [documentDescription, setDocDesc] = useState("Add Description");
   const [select, setSelect] = useState('Choose Type ')
-  const [deleteId, setDeleteId] = useState();
+  const [editId, seteditId] = useState();
+
   const [questionType, setType] = useState("radio");
   const [questionRequired, setRequired] = useState("true");
+  const [btnText , setBtnText]= useState('Save');
   let { id } = useParams();
 
   useEffect(() => {
@@ -63,12 +65,16 @@ export default function QuestionnaireForm() {
     async function data_adding() {
       var request = await axios.get(`http://localhost:5555/questionnaire/data/${id}`);
       console.log("sudeep" + JSON.stringify(request));
+      if(request.data !== "")
+      {
+        setBtnText('Update');
+      }
       var question_data = request.data.questions;
       console.log("check hereeeee", question_data)
 
       var doc_name = request.data.document_name
       var doc_descip = request.data.doc_desc
-      setDeleteId(question_data[0].id);
+      seteditId(question_data[0].id);
       console.log(doc_name + " " + doc_descip)
       setType(question_data[0].questionType)
       setDocName(doc_name)
@@ -126,9 +132,18 @@ export default function QuestionnaireForm() {
       questions: questions
 
     })
+
+    if(btnText === 'Save')
+    {
     axios.post(`http://localhost:5555/questionnaire/add_questions/${id}`, {
       "questions": questions,
     })
+  }
+  else{
+    axios.put(`http://localhost:5555/questionnaire/update_questions/${editId}`, {
+      "questions": questions,
+    })
+  }
 
     history("/")
   }
@@ -165,7 +180,7 @@ export default function QuestionnaireForm() {
     if (questions.length > 1) {
       qs.splice(i, 1);
     } else {
-      axios.delete(`http://localhost:5555/questionnaire/delete_question/${deleteId}`)
+      axios.delete(`http://localhost:5555/questionnaire/delete_question/${editId}`)
       history("/")
     }
 
@@ -562,7 +577,7 @@ export default function QuestionnaireForm() {
           </DragDropContext>
 
           <div className="save_form">
-            <Button variant="contained" color="primary" onClick={commitToDB} style={{ fontSize: "14px" }} className="save-btn">Save</Button>
+            <Button variant="contained" color="primary" onClick={commitToDB} style={{ fontSize: "14px" }} className="save-btn">{btnText}</Button>
 
           </div>
 

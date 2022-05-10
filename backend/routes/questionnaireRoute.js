@@ -31,15 +31,15 @@ const path = require('path');
 
 //get all data
 router.get("/get_all_files", async (req, res) => {
-    // fs.readdir(`./files/`, (err, files) => {
-    //     if (err) throw err;
+    fs.readdir(`./files/`, (err, files) => {
+        if (err) throw err;
 
-    //     for (const file of files) {
-    //         fs.unlink(path.join(__dirname, '../files', file), err => {
-    //             if (err) throw err;
-    //         });
-    //     }
-    // });
+        for (const file of files) {
+            fs.unlink(path.join(__dirname, '../files', file), err => {
+                if (err) throw err;
+            });
+        }
+    });
     const questionnaireData = await QuestionnaireRepository.getAllFields();
     for (const [key, value] of Object.entries(questionnaireData)) {
 
@@ -64,13 +64,12 @@ router.get("/get_all_files", async (req, res) => {
 router.post(`/add_questions/:doc_id`, async (req, res) => {
 
     console.log(req.body.questions);
-    let fileData = req.body.questions;
     var docs_data = req.body;
     var fileId = req.params.doc_id
     let data = docs_data.questions[0].options;
     const questionnaireData = await QuestionnaireRepository.addNewField(docs_data, fileId);
     if (data[0].option !== "") {
-       await QuestionnaireRepository.addNewOption(data, fileId);
+        await QuestionnaireRepository.addNewOption(data, fileId);
 
 
     }
@@ -79,11 +78,29 @@ router.post(`/add_questions/:doc_id`, async (req, res) => {
 })
 
 //delete data by id
-router.delete(`/delete_question/:doc_id`, async(req, res) => {
+router.delete(`/delete_question/:doc_id`, async (req, res) => {
     var id = req.params.doc_id;
-    await QuestionnaireRepository.deleteOptionById(id);
+    if (id !== 'undefined') {
+        await QuestionnaireRepository.deleteOptionById(id);
 
-    await QuestionnaireRepository.deleteFieldById(id);
+        await QuestionnaireRepository.deleteFieldById(id);
+    }
+
+    //fs.unlinkSync(`./files/${name}.json`);
+})
+
+
+//update data by id
+router.put(`/update_questions/:doc_id`, async (req, res) => {
+    var id = req.params.doc_id;
+    var docs_data = req.body.questions;
+    console.log("gggg " + JSON.stringify(docs_data));
+    let data = docs_data[0].options;
+    if (data[0].option !== "") {
+        await QuestionnaireRepository.updateOptionById(id,data);
+    }
+    await QuestionnaireRepository.updateFieldById(id,docs_data);
+
 
     //fs.unlinkSync(`./files/${name}.json`);
 })
