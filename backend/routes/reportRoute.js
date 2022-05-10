@@ -21,6 +21,17 @@ router.get("/:value", async (req, res) => {
         console.log(e);
     }
 });
+
+router.get("/sort/:value", async (req, res) => {
+    try {
+        const x = await reportRepository.getCandidatesSortValue(req.params.value);
+        console.log(req.params.value);
+        res.send(x);
+    } catch (e) {
+        console.log(e);
+    }
+});
+
 //===================================================================================
 
 // get Candidate by id
