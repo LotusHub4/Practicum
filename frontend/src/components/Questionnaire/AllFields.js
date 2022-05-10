@@ -11,6 +11,7 @@ export default function AllFields() {
             
             var request = await axios.get("http://localhost:5555/questionnaire/get_all_files")
             let files = request.data;
+            console.log("ffff" + JSON.stringify(files));
             setFiles(files)
            
         }
@@ -27,8 +28,8 @@ export default function AllFields() {
             </div>
             <div className="main_docs">
                  {
-                    files.map((ele)=>(
-                        <NavigateToField name={ele}/>
+                    files.map((ele,i)=>(
+                        <NavigateToField key={i} name={ele}/>
                     ))            
                  }
                  <NavigateToField />   

@@ -12,7 +12,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/form/:id" element={<AddField />} />
-          <Route exact path="/questionnaire" element={<><Header /><NewField /><AllFields /></>} />
+          <Route exact path="/" element={<><Header /><NewField /><AllFields /></>} />
           <Route exact path="/report" element={<Report />} />
 
         </Routes>

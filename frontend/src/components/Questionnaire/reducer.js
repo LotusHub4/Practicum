@@ -1,5 +1,5 @@
 export const initialState = {
-    questions:[{questionText: "Question", questionType:"radio",type:"text", options : [{optionText: ""}], open: true, required:false}],
+    questions:[{questionText: "Question", questionType:"radio",type:"text", options : [{option: ""}], open: true, required:false}],
     questionType:"radio",
 }
 
