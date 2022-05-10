@@ -7,6 +7,8 @@ export function Report(){
   const dataList = axios.get("http://localhost:5555/candidates");
   const [data, setData] = useState([]);
   const [value, setValue] = useState();
+  const [sortValue, setSortValue] = useState();
+  const sortOptions=["firstName","lastName","interest","englishLevel","mathLevel","maritalStatus","livingArea"]
   useEffect (() => {
     loadUserData();
   }, []);
@@ -29,6 +31,17 @@ export function Report(){
   setValue("");
 })
   .catch((err) => console.log("there was an error", err));
+};
+
+const handleSort = async (e) => {
+  let value = e.target.value;
+  setSortValue(value);
+  console.log(value);
+return await axios.get(`http://localhost:5555/candidates/sort/` + `${value}`)
+.then((response) => {
+setData(response.data);
+})
+.catch((err) => console.log("there was an error", err));
 };
 
   return(
@@ -86,6 +99,20 @@ export function Report(){
       </MDBTable>
     </MDBRow>
       </div>
+      <MDBRow>
+       <MDBCol>
+         <h5>Sort By :</h5>
+         <select onChange={handleSort}
+         value={sortValue}>
+           <option>Please Select Value</option>
+           {sortOptions.map((item,index) => (
+             <option value={item} key={index}>{item} </option>
+           ))}
+         </select>
+
+       </MDBCol>
+       <MDBCol></MDBCol>
+      </MDBRow>
     </MDBContainer>
     
 

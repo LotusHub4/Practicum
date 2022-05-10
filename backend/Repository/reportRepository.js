@@ -21,10 +21,7 @@ function getAllCandidates() {
 }
 
 exports.getAllCandidates = getAllCandidates;
-
 //===============================================================
-
-
 function getCandidatesValue(value) {
     return new Promise(async (resolve, reject) => {
         let y = await connect.connectionfun()
@@ -52,11 +49,33 @@ function getCandidatesValue(value) {
 
 exports.getCandidatesValue = getCandidatesValue;
 //=============================================================
+function getCandidatesSortValue(value) {
+    return new Promise(async (resolve, reject) => {
+        let y = await connect.connectionfun()
+        const candidate = y.query(`SELECT * FROM candidate 
+         ORDER BY  '${value}' [ASC] `, (err, rows) => {
+            if (!err) {
+                console.log('The data from candidates table are: \n', rows)
+                y.release()
+            } else {
+                console.log(err)
+                y.release()
+                reject(err);
+            }
+            resolve(rows)
+            console.log(rows, "the data appear");
+
+        })
+    })
+}
+
+exports.getCandidatesSortValue = getCandidatesSortValue;
+//=============================================================
 function getCandidateById(id) {
     return new Promise(async (resolve, reject) => {
         let y = await connect.connectionfun();
 
-        const results = y.query(`SELECT * FROM candidate WHERE id='${id}'`, (err, rows) => {
+        const results = y.query(`SELECT * FROM candidate WHERE id = '${id}'`, (err, rows) => {
             if (!err) {
                 console.log("The data from user table are: \n", rows);
                 y.release();
@@ -72,3 +91,12 @@ function getCandidateById(id) {
 }
 exports.getCandidateById = getCandidateById
 
+
+
+
+//============
+// ,lastName
+//         ,maritalStatus
+//         ,interest
+//         ,mathLevel [ASC|DESC]
+//         ,englishLevel [ASC|DESC]
