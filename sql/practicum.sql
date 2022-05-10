@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 02, 2022 at 05:22 PM
+-- Generation Time: May 09, 2022 at 07:54 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -61,10 +61,19 @@ CREATE TABLE `candidate` (
 --
 
 CREATE TABLE `optiontype` (
-  `id` int(11) NOT NULL,
-  `idQuestionnair` int(11) NOT NULL,
+  `id` int(11) NOT NULL ,
+  `idQuestionnaire` int(11) NOT NULL,
   `option` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `optiontype`
+--
+
+INSERT INTO `optiontype` (`id`, `idQuestionnaire`, `option`) VALUES
+(1, 1, '1'),
+(2, 1, '2'),
+(3, 1, '3');
 
 -- --------------------------------------------------------
 
@@ -77,8 +86,20 @@ CREATE TABLE `questionnairfields` (
   `nameField` varchar(255) NOT NULL,
   `typeField` varchar(255) NOT NULL,
   `createDate` varchar(255) NOT NULL,
-  `required` tinyint(1) NOT NULL
+  `required` tinyint(1) NOT NULL,
+  `file` varchar(255) DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `questionnairfields`
+--
+
+INSERT INTO `questionnairfields` (`id`, `nameField`, `typeField`, `createDate`, `required`, `file`, `type`) VALUES
+(0, 'Question', 'radio', 'Mon May 09 2022 17:37:51 GMT+0300 (שעון ישראל (קיץ))', 0, '58a3bdd-8c6e-08fc-0ce1-a6df6f211daf', 'text'),
+(1, 'CV', 'fileUpload', '09/05/2022', 1, 'dce087f-44b0-0de8-6156-0ae70aa7eb16', 'file'),
+(2, 'First Name', 'text', '09/05/2022', 0, 'dce087f-54b0-0de8-6156-0ae70aa7eb16', 'text'),
+(3, 'Last Name', 'text', '09/05/2022', 0, 'dce087f-64b0-0de8-6156-0ae70aa7eb16', 'text');
 
 -- --------------------------------------------------------
 
@@ -126,13 +147,14 @@ ALTER TABLE `candidate`
 --
 ALTER TABLE `optiontype`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `FK_idQuestionnaire` (`idQuestionnair`);
+  ADD KEY `FK_idQuestionnaire` (`idQuestionnaire`);
 
 --
 -- Indexes for table `questionnairfields`
 --
 ALTER TABLE `questionnairfields`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id` (`id`);
 
 --
 -- Indexes for table `role`
@@ -164,12 +186,6 @@ ALTER TABLE `optiontype`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `questionnairfields`
---
-ALTER TABLE `questionnairfields`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `role`
 --
 ALTER TABLE `role`
@@ -182,6 +198,11 @@ ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `questionnairfields`
+--
+ALTER TABLE `questionnairfields`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- Constraints for dumped tables
 --
 
@@ -189,7 +210,7 @@ ALTER TABLE `users`
 -- Constraints for table `optiontype`
 --
 ALTER TABLE `optiontype`
-  ADD CONSTRAINT `FK_idQuestionnaire` FOREIGN KEY (`idQuestionnair`) REFERENCES `questionnairfields` (`id`);
+  ADD CONSTRAINT `FK_idQuestionnaire` FOREIGN KEY (`idQuestionnaire`) REFERENCES `questionnairfields` (`id`);
 
 --
 -- Constraints for table `users`
@@ -198,6 +219,6 @@ ALTER TABLE `users`
   ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`roleId`) REFERENCES `role` (`id`);
 COMMIT;
 
-/* !40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

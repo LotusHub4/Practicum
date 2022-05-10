@@ -9,16 +9,14 @@ export default function NewField() {
 
     function createform(){
         var create_form_id = uuid();
-        console.log(create_form_id)  
-
         history("/form/" + create_form_id)
-    var questions_list=[{questionText: "Question", questionType:"radio", type:"text", options : [{optionText: ""}], open: true, required:false}]
+   // var questions_list=[{questionText: "Question", questionType:"radio", type:"text", options : [{optionText: ""}], open: true, required:false}]
     
-        axios.post(`http://localhost:5555/questionnaire/add_questions/${create_form_id}`,{
-            "document_name": "untitled_form",
-            "doc_desc": "Add Description",
-            "questions": questions_list,
-          })
+        // axios.post(`http://localhost:5555/questionnaire/add_questions/${create_form_id}`,{
+        //     "document_name": "untitled_form",
+        //     "doc_desc": "Add Description",
+        //     "questions": questions_list,
+        //   })
     }
     return (
         <div className="template_section">

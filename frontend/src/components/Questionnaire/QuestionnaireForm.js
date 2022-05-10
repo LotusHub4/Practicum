@@ -3,9 +3,9 @@ import "./QuestionnaireForm.css"
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import EmailIcon from '@material-ui/icons/Email';
 import MenuItem from '@material-ui/core/MenuItem';
-import {MdOutlinePassword , MdSportsScore ,MdSchool} from 'react-icons/md';
-import {HiIdentification} from 'react-icons/hi';
-import {AiFillPhone} from 'react-icons/ai';
+import { MdOutlinePassword, MdSportsScore, MdSchool } from 'react-icons/md';
+import { HiIdentification } from 'react-icons/hi';
+import { AiFillPhone } from 'react-icons/ai';
 import Select from '@material-ui/core/Select';
 import Switch from '@material-ui/core/Switch';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
@@ -21,8 +21,8 @@ import { BsTrash } from "react-icons/bs"
 import { IconButton } from '@material-ui/core';
 import FilterNoneIcon from '@material-ui/icons/FilterNone';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import { VscFileCode ,VscInbox ,VscSymbolNumeric } from "react-icons/vsc";
-import { BsFileText} from "react-icons/bs"
+import { VscFileCode, VscInbox, VscSymbolNumeric } from "react-icons/vsc";
+import { BsFileText } from "react-icons/bs"
 import { Typography } from '@material-ui/core';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -38,7 +38,7 @@ import { useNavigate } from "react-router-dom";
 
 
 export default function QuestionnaireForm() {
-const history = useNavigate();
+  const history = useNavigate();
 
   console.log(useStateValue());
   const [{ }, dispatch] = useStateValue();
@@ -46,15 +46,14 @@ const history = useNavigate();
   const [documentName, setDocName] = useState("untitled Document");
 
   const [documentDescription, setDocDesc] = useState("Add Description");
-  const [select,setSelect]=useState('Choose Type ')
-
+  const [select, setSelect] = useState('Choose Type ')
+  const [deleteId, setDeleteId] = useState();
   const [questionType, setType] = useState("radio");
   const [questionRequired, setRequired] = useState("true");
   let { id } = useParams();
 
-  console.log("jjjj " , id)
   useEffect(() => {
-    var newQuestion = { questionText: "Question", answer: false, answerKey: "", questionType: "radio", options: [{ optionText: "" }], open: true, required: false }
+    var newQuestion = { questionText: "Question", answer: false, answerKey: "", questionType: "radio", options: [{ option: "" }], open: true, required: false }
 
     setQuestions([...questions, newQuestion])
 
@@ -63,12 +62,13 @@ const history = useNavigate();
   useEffect(() => {
     async function data_adding() {
       var request = await axios.get(`http://localhost:5555/questionnaire/data/${id}`);
-      console.log("sudeep" + request);
+      console.log("sudeep" + JSON.stringify(request));
       var question_data = request.data.questions;
-      console.log("check hereeeee",question_data)
-    
+      console.log("check hereeeee", question_data)
+
       var doc_name = request.data.document_name
       var doc_descip = request.data.doc_desc
+      setDeleteId(question_data[0].id);
       console.log(doc_name + " " + doc_descip)
       setType(question_data[0].questionType)
       setDocName(doc_name)
@@ -120,19 +120,14 @@ const history = useNavigate();
 
 
 
-  function commitToDB(){
-    console.log(questions);
+  function commitToDB() {
     dispatch({
       type: actionTypes.SET_QUESTIONS,
-       questions:questions
+      questions: questions
 
-     })
-
-     axios.post(`http://localhost:5555/questionnaire/add_questions/${id}`,{
+    })
+    axios.post(`http://localhost:5555/questionnaire/add_questions/${id}`, {
       "questions": questions,
-      
-      
-  
     })
 
     history("/")
@@ -144,17 +139,13 @@ const history = useNavigate();
   function addMoreQuestionField() {
     expandCloseAll(); //I AM GOD
 
-    setQuestions(questions => [...questions, { questionText: "Question", questionType: "radio",type:"text", options: [{ optionText: "" }], open: true, required: false }]);
+    setQuestions(questions => [...questions, { questionText: "Question", questionType: "radio", type: "text", options: [{ option: "" }], open: true, required: false }]);
   }
 
   function addQuestionType(i, type, realType) {
     let qs = [...questions];
-    console.log(realType)
     qs[i].questionType = realType;
     qs[i].type = type;
-
-    setType(realType)
-
     setQuestions(qs);
 
   }
@@ -173,17 +164,17 @@ const history = useNavigate();
     let qs = [...questions];
     if (questions.length > 1) {
       qs.splice(i, 1);
-    }else{
-      axios.delete(`http://localhost:5555/questionnaire/delete_question/${id}`)
+    } else {
+      axios.delete(`http://localhost:5555/questionnaire/delete_question/${deleteId}`)
       history("/")
     }
-  
+
     setQuestions(qs)
   }
 
   function handleOptionValue(text, i, j) {
     var optionsOfQuestion = [...questions];
-    optionsOfQuestion[i].options[j].optionText = text;
+    optionsOfQuestion[i].options[j].option = text;
     //newMembersEmail[i]= email;
     setQuestions(optionsOfQuestion);
   }
@@ -223,7 +214,7 @@ const history = useNavigate();
   function addOption(i) {
     var optionsOfQuestion = [...questions];
     if (optionsOfQuestion[i].options.length < 5) {
-      optionsOfQuestion[i].options.push({ optionText: "" })
+      optionsOfQuestion[i].options.push({ option: "" })
     } else {
       console.log("Max  5 options ");
     }
@@ -350,7 +341,7 @@ const history = useNavigate();
                                   lineHeight: '20px',
                                   color: '#202124'
                                 }}>
-                                  {ques.options[j].optionText}
+                                  {ques.options[j].option}
                                 </Typography>
                               } />
                             </div>
@@ -370,25 +361,25 @@ const history = useNavigate();
                       <div >
                         <div className="add_question_top">
                           <input type="text" className="question" placeholder="Question" value={ques.questionText} onChange={(e) => { handleQuestionValue(e.target.value, i) }}></input>
-                          <Select className="select" style={{ color: "#5f6368", fontSize: "13px" }}  defaultValue={select}>
-                            
-                                    
-                                <option selected disabled value={select}>{questionType}</option>
-                              
-                            <MenuItem value="10" id="text"  onClick={() => { addQuestionType(i, "text", "text") }}> <ShortTextIcon style={{ marginRight: "10px" }} />  Short Pharaghraph</MenuItem>
-                            <MenuItem   id="text" value="Text" onClick={() => { addQuestionType(i,"paragraph", "paragraph") }}> <SubjectIcon style={{ marginRight: "10px" }} />  Paragraph</MenuItem>
-                            <MenuItem value="radio" id="radio" onClick={() => { addQuestionType(i, "multiCheckbox","checkbox") }}><RadioButtonCheckedIcon checked style={{ marginRight: "10px", color: "#70757a" }} /> Multiple Choice</MenuItem>
-                            <MenuItem  id="checkbox" value="Checkbox" onClick={() => { addQuestionType(i, "checkbox","checkbox") }}><CheckBoxIcon style={{ marginRight: "10px", color: "#70757a" }} checked /> Checkboxes</MenuItem>
-                            <MenuItem value="50" onClick={() => { addQuestionType(i,"select", "checkbox") }}> <ArrowDropDownCircleIcon style={{ marginRight: "10px" }} /> Drop-down</MenuItem>
-                            <MenuItem value="60" onClick={() => { addQuestionType(i, "uploadFile","file") }}> <BackupIcon style={{ marginRight: "10px" }} /> File Upload</MenuItem>
-                            <MenuItem value="70" onClick={() => { addQuestionType(i, "uploadImage","file") }}> <BackupIcon style={{ marginRight: "10px" }} /> File Image</MenuItem>
-                            <MenuItem value="80" id="text"  onClick={() => { addQuestionType(i, "email","email") }}> <EmailIcon style={{ marginRight: "10px" }} /> Email</MenuItem>
-                            <MenuItem value="90" id="text"  onClick={() => { addQuestionType(i, "password","password") }}> <MdOutlinePassword style={{ marginRight: "10px" }} /> Password</MenuItem>
-                            <MenuItem value="100" onClick={() => { addQuestionType(i, "date","date") }}> <EventIcon style={{ marginRight: "10px" }} /> Date</MenuItem>
-                            <MenuItem value="110" onClick={() => { addQuestionType(i, "time","time") }}> <ScheduleIcon style={{ marginRight: "10px" }} /> Time</MenuItem>
-                            <MenuItem  id="text" value="2" onClick={() => { addQuestionType(i,"phoneNumber", "phoneNumber") }}> <AiFillPhone style={{ marginRight: "10px" }} />  Phone Number</MenuItem>
-                            <MenuItem id="text" value="4" onClick={() => { addQuestionType(i,"postalCode", "postalCode") }}> <VscFileCode style={{ marginRight: "10px" }} />  Postal Code</MenuItem>
-                            <MenuItem id="text" value="6" onClick={() => { addQuestionType(i, "grade","number") }}> <MdSportsScore style={{ marginRight: "10px" }} />  Grade</MenuItem>
+                          <Select className="select" style={{ color: "#5f6368", fontSize: "13px" }} defaultValue={select}>
+
+
+                            <option selected disabled value={select}>{questionType}</option>
+
+                            <MenuItem value="10" id="text" onClick={() => { addQuestionType(i, "text", "text") }}> <ShortTextIcon style={{ marginRight: "10px" }} />  Short Pharaghraph</MenuItem>
+                            <MenuItem id="text" value="Text" onClick={() => { addQuestionType(i, "paragraph", "paragraph") }}> <SubjectIcon style={{ marginRight: "10px" }} />  Paragraph</MenuItem>
+                            <MenuItem value="radio" id="radio" onClick={() => { addQuestionType(i, "multiCheckbox", "checkbox") }}><RadioButtonCheckedIcon checked style={{ marginRight: "10px", color: "#70757a" }} /> Multiple Choice</MenuItem>
+                            <MenuItem id="checkbox" value="Checkbox" onClick={() => { addQuestionType(i, "checkbox", "checkbox") }}><CheckBoxIcon style={{ marginRight: "10px", color: "#70757a" }} checked /> Checkboxes</MenuItem>
+                            <MenuItem value="50" onClick={() => { addQuestionType(i, "select", "checkbox") }}> <ArrowDropDownCircleIcon style={{ marginRight: "10px" }} /> Drop-down</MenuItem>
+                            <MenuItem value="60" onClick={() => { addQuestionType(i, "uploadFile", "file") }}> <BackupIcon style={{ marginRight: "10px" }} /> File Upload</MenuItem>
+                            <MenuItem value="70" onClick={() => { addQuestionType(i, "uploadImage", "file") }}> <BackupIcon style={{ marginRight: "10px" }} /> File Image</MenuItem>
+                            <MenuItem value="80" id="text" onClick={() => { addQuestionType(i, "email", "email") }}> <EmailIcon style={{ marginRight: "10px" }} /> Email</MenuItem>
+                            <MenuItem value="90" id="text" onClick={() => { addQuestionType(i, "password", "password") }}> <MdOutlinePassword style={{ marginRight: "10px" }} /> Password</MenuItem>
+                            <MenuItem value="100" onClick={() => { addQuestionType(i, "date", "date") }}> <EventIcon style={{ marginRight: "10px" }} /> Date</MenuItem>
+                            <MenuItem value="110" onClick={() => { addQuestionType(i, "time", "time") }}> <ScheduleIcon style={{ marginRight: "10px" }} /> Time</MenuItem>
+                            <MenuItem id="text" value="2" onClick={() => { addQuestionType(i, "phoneNumber", "phoneNumber") }}> <AiFillPhone style={{ marginRight: "10px" }} />  Phone Number</MenuItem>
+                            <MenuItem id="text" value="4" onClick={() => { addQuestionType(i, "postalCode", "postalCode") }}> <VscFileCode style={{ marginRight: "10px" }} />  Postal Code</MenuItem>
+                            <MenuItem id="text" value="6" onClick={() => { addQuestionType(i, "grade", "number") }}> <MdSportsScore style={{ marginRight: "10px" }} />  Grade</MenuItem>
                             <MenuItem id="text" value="8" onClick={() => { addQuestionType(i, "POBox", "number") }}> <VscInbox style={{ marginRight: "10px" }} />  Po Box</MenuItem>
                             {/* <MenuItem id="text" value="12" onClick={() => { addQuestionType(i, "units") }}> <VscSymbolNumeric style={{ marginRight: "10px" }} />  Units</MenuItem> */}
                             <MenuItem id="text" value="14" onClick={() => { addQuestionType(i, "age", "number") }}> <MdSchool style={{ marginRight: "10px" }} />  Age</MenuItem>
@@ -410,7 +401,7 @@ const history = useNavigate();
 
                             }
                             <div >
-                              <input type="text" className="text_input" placeholder="option" value={ques.options[j].optionText} onChange={(e) => { handleOptionValue(e.target.value, i, j) }}></input>
+                              <input type="text" className="text_input" placeholder="option" value={ques.options[j].option} onChange={(e) => { handleOptionValue(e.target.value, i, j) }}></input>
                             </div>
                           </div>
                         ))}
@@ -456,7 +447,7 @@ const history = useNavigate();
                     </AccordionDetails>) : (
 
                       <AccordionDetails className="add_question" >
-                    
+
                         <div >
                           <div className="add_question_top">
                             <input type="text" className="question " placeholder="Question" value={ques.questionText} onChange={(e) => { handleQuestionValue(e.target.value, i) }} disabled />
@@ -474,7 +465,7 @@ const history = useNavigate();
                               <div key={j}>
                                 <div style={{ display: 'flex' }} className="">
                                   <div className="form-check">
-                                    <label style={{ fontSize: "13px" }} onClick={() => { setOptionAnswer(ques.options[j].optionText, i) }}>
+                                    <label style={{ fontSize: "13px" }} onClick={() => { setOptionAnswer(ques.options[j].option, i) }}>
 
                                       {(ques.questionType != "text") ?
                                         <input
@@ -489,7 +480,7 @@ const history = useNavigate();
                                         <ShortTextIcon style={{ marginRight: "10px" }} />
                                       }
 
-                                      {ques.options[j].optionText}
+                                      {ques.options[j].option}
                                     </label>
                                   </div>
                                 </div>
@@ -527,7 +518,7 @@ const history = useNavigate();
                     )}
                     {!ques.answer ? (<div className="question_edit">
                       <AddCircleOutlineIcon onClick={addMoreQuestionField} className="edit" />
-               
+
                     </div>) : ""}
                   </div>
 
@@ -571,9 +562,9 @@ const history = useNavigate();
           </DragDropContext>
 
           <div className="save_form">
-            <Button variant="contained" color="primary" onClick={commitToDB} style={{fontSize:"14px"}} className="save-btn">Save</Button>
+            <Button variant="contained" color="primary" onClick={commitToDB} style={{ fontSize: "14px" }} className="save-btn">Save</Button>
 
-            </div>
+          </div>
 
         </div>
 
