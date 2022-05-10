@@ -27,11 +27,8 @@ function getCandidatesValue(value) {
         let y = await connect.connectionfun()
         const candidate = y.query(`SELECT * FROM candidate WHERE 
         firstName LIKE '%${value}%' 
-        OR lastName  LIKE '%${value}%' 
-        OR maritalStatus  LIKE '%${value}%' 
-        OR interest LIKE  '%${value}%' 
-        OR mathLevel LIKE '%${value}%' 
-        OR englishLevel  LIKE '%${value}%'`, (err, rows) => {
+        OR lastName  LIKE '%${value}%'  
+        OR livingArea LIKE  '%${value}%'`, (err, rows) => {
             if (!err) {
                 console.log('The data from candidates table are: \n', rows)
                 y.release()
@@ -53,7 +50,7 @@ function getCandidatesSortValue(value) {
     return new Promise(async (resolve, reject) => {
         let y = await connect.connectionfun()
         const candidate = y.query(`SELECT * FROM candidate 
-         ORDER BY  '${value}' [ASC] `, (err, rows) => {
+         ORDER BY  ${value} `, (err, rows) => {
             if (!err) {
                 console.log('The data from candidates table are: \n', rows)
                 y.release()

@@ -55,6 +55,21 @@ setData(response.data);
       <button type='submit' className='searchbtn'>Search</button>
       <button className='resetbtn' onClick={() => handleReset()}>Reset</button>
       </form>
+      <MDBRow className='sort_mdb_row'>
+       <MDBCol className='sort_mdb_col'>
+         <h5>Sort by:</h5>
+          <select className='sort_select'onChange={handleSort} 
+         value={sortValue}>
+           <option value="" disabled selected>select your option</option>
+           {sortOptions.map((item,index) => (
+             <option value={item} key={index}>{item} </option>
+           ))}
+         </select>
+       </MDBCol>
+       <MDBCol>
+         <h5>Filter by</h5>
+       </MDBCol>
+      </MDBRow>
       <div className='mdbrow'>
         <h2 className='candidateword'>
          Candidates 
@@ -99,20 +114,7 @@ setData(response.data);
       </MDBTable>
     </MDBRow>
       </div>
-      <MDBRow>
-       <MDBCol>
-         <h5>Sort By :</h5>
-         <select onChange={handleSort}
-         value={sortValue}>
-           <option>Please Select Value</option>
-           {sortOptions.map((item,index) => (
-             <option value={item} key={index}>{item} </option>
-           ))}
-         </select>
-
-       </MDBCol>
-       <MDBCol></MDBCol>
-      </MDBRow>
+      
     </MDBContainer>
     
 
