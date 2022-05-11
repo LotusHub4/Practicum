@@ -143,11 +143,12 @@ router.get("/fieldFromDB", async (req, res) => {
 //add new candidate
 router.post("/addCandidate", async (req, res) => {
     return new Promise(async (resolve, reject) => {
-        let allFields = req.body;
+        let allFields = req.body.candidate;
         let keys = [], vals = []
         for (let i = 0; i < allFields.length; i++) {
-            keys.push(Object.keys(allFields[i])[0])
-            vals.push(Object.values(Object.values(allFields[i]))[0])
+            keys.push(allFields[i].name);
+            vals.push(allFields[i].value);
+
         }
         console.log(keys, "----", vals);
 
@@ -162,9 +163,9 @@ router.post("/addCandidate", async (req, res) => {
                 Object.values(rows).forEach(col => {
                     allColumns.push(col.Field)
                 });
-                for (let i = 0; i < 3; i++) {
-                    if (!allColumns.includes(Object.keys(allFields[i])[0])) {
-                        y.query('ALTER TABLE candidate ADD COLUMN ' + Object.keys(allFields[i]) + ' VARCHAR(255) NOT NULL', (err, rows) => {
+                for (let i = 0; i < allFields; i++) {
+                    if (!allColumns.includes(keys[i])) {
+                        y.query('ALTER TABLE candidate ADD COLUMN ' + keys[i] + ' VARCHAR(255) NOT NULL', (err, rows) => {
                             if (!err) {
                                 console.log('The data from jopposts table are2: \n', rows)
                             } else {
@@ -176,7 +177,6 @@ router.post("/addCandidate", async (req, res) => {
                     }
                 }
                 // for (let i = 0; i < 3; i++) {
-                console.log("keys-> ", Object.keys(Object.values(allFields)), " values-> ", Object.values(Object.values(allFields)), " allColumns-> ", allColumns);
                 y.query('INSERT INTO candidate (??) VALUES (?)', [keys, vals], (err, rows) => {
                     if (!err) {
                         console.log('The data from jopposts table are3: \n', rows);

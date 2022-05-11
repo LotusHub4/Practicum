@@ -78,20 +78,20 @@ exports.fields =
             "pattern": "[0-9]*8"
          }
       },
-      {
-         "name": "interest",
-         "type": "select",
-         "label": "Interested In:",
-         "funcName": "",
-         "requierd": true,
-         "properties": {
-            "selectOptions": [
-               "QA",
-               "FULLSTACK"
-            ],
-            "multiple": true
-         }
-      },
+      // {
+      //    "name": "interest",
+      //    "type": "select",
+      //    "label": "Interested In:",
+      //    "funcName": "",
+      //    "requierd": true,
+      //    "properties": {
+      //       "selectOptions": [
+      //          "QA",
+      //          "FULLSTACK"
+      //       ],
+      //       "multiple": true
+      //    }
+      // },
 
       {
          "name": "morningWork",
