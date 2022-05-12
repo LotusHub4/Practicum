@@ -7,11 +7,9 @@ export default function AllFields() {
     const [files,setFiles]=useState([]);
   
     useEffect(() => {
-        async function filenames(){
-            
-            var request = await axios.get("http://localhost:5555/questionnaire/get_all_files")
-            let files = request.data;
-            console.log("ffff" + JSON.stringify(files));
+        async function filenames(){         
+            var request = await axios.get("http://localhost:5555/questionnaire/get_all_files");
+            let files = request.data.questions;
             setFiles(files)
            
         }
@@ -32,7 +30,6 @@ export default function AllFields() {
                         <NavigateToField key={i} name={ele}/>
                     ))            
                  }
-                 <NavigateToField />   
             </div>
         </div>
     )

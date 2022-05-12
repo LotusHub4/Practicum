@@ -1,8 +1,6 @@
 const express = require('express');
 const QuestionnaireRepository = require('../Repository/questionnaireRepository');
 const router = express.Router();
-const fs = require('fs');
-const Excel = require('exceljs')
 var bodyParser = require('body-parser');
 router.use(bodyParser.json())
 router.use(function (req, res, next) {
@@ -12,69 +10,57 @@ router.use(function (req, res, next) {
 });
 
 
+//get all data
+router.get("/get_all_files", async (req, res) => {
+    let arr={"questions":[]};
+    const questionnaireData = await QuestionnaireRepository.getAllFields();
+    
+    for (const [key, value] of Object.entries(questionnaireData)) {
 
+        data = {questions:[{date:value.createDate,file:value.file,id:value.id,questionText:value.nameField,questionType:value.typeField,type:value.typeField,options:JSON.stringify(await QuestionnaireRepository.getOptionById(value.id)),open:true,required:value.required}]};
+        arr.questions.push(data.questions[0]);
+    }
+        res.send(arr);
+
+});
 
 
 //get data by id
-router.get("/data/:doc_id", (req, res) => {
-    var docId = req.params.doc_id;
-    fs.readFile(`./files/${docId}.json`, (err, data) => {
-        if (err) console.log(err);;
-        // let ques_data = JSON.parse(data);
-        res.send(data);
-    });
-})
-
-const path = require('path');
-
-
-
-//get all data
-router.get("/get_all_files", async (req, res) => {
-    fs.readdir(`./files/`, (err, files) => {
-        if (err) throw err;
-
-        for (const file of files) {
-            fs.unlink(path.join(__dirname, '../files', file), err => {
-                if (err) throw err;
-            });
-        }
-    });
-    const questionnaireData = await QuestionnaireRepository.getAllFields();
+router.get("/data/:doc_id", async (req, res) => {
+    var fileId = req.params.doc_id;
+    let arr={"questions":[]};
+    const questionnaireData = await QuestionnaireRepository.getFieldById(fileId);
+  
     for (const [key, value] of Object.entries(questionnaireData)) {
 
-        data = `{"questions":[{"id":${value.id},"questionText":"${value.nameField}","questionType":"${value.typeField}","type":"${value.typeField}","options":${JSON.stringify(await QuestionnaireRepository.getOptionById(value.id))},"open":${true},"required":${value.required}}]}`;
-        fs.writeFileSync(`./files/${value.file}.json`, data);
+        data = {questions:[{date:value.d,file:value.file,id:value.id,questionText:value.nameField,questionType:value.typeField,type:value.typeField,options:await QuestionnaireRepository.getOptionById(value.id),open:true,required:value.required}]};
+        arr.questions.push(data.questions[0]);
     }
-    const directoryPath = path.join(__dirname, '../files');
-    fs.readdir(directoryPath, function (err, files) {
-        if (err) {
-            return console.log('Unable to scan directory: ' + err);
-        }
-
-        res.send(files);
-
-
-    });
-});
+        res.send(arr);
+})
 
 
 
 //add new data
 router.post(`/add_questions/:doc_id`, async (req, res) => {
-
-    console.log(req.body.questions);
-    var docs_data = req.body;
+    let q = 0;
+    var docs_data = req.body.questions;
     var fileId = req.params.doc_id
-    let data = docs_data.questions[0].options;
-    const questionnaireData = await QuestionnaireRepository.addNewField(docs_data, fileId);
-    if (data[0].option !== "") {
-        await QuestionnaireRepository.addNewOption(data, fileId);
+    for (let i = 0; i < docs_data.length; i++) {
+        let data = docs_data[i].options;
 
+     await QuestionnaireRepository.addNewField(docs_data[i], fileId).then(result=>{
+        q =result.insertId;
+     })
+     
+    for (let j = 0; j < data.length; j++) { 
+        if (data[j].option !== "") {
 
+        await QuestionnaireRepository.addNewOption(data[j], q);
     }
-
-    res.send(questionnaireData);
+}
+}
+    res.send(true);
 })
 
 //delete data by id
@@ -86,7 +72,6 @@ router.delete(`/delete_question/:doc_id`, async (req, res) => {
         await QuestionnaireRepository.deleteFieldById(id);
     }
 
-    //fs.unlinkSync(`./files/${name}.json`);
 })
 
 
@@ -94,15 +79,12 @@ router.delete(`/delete_question/:doc_id`, async (req, res) => {
 router.put(`/update_questions/:doc_id`, async (req, res) => {
     var id = req.params.doc_id;
     var docs_data = req.body.questions;
-    console.log("gggg " + JSON.stringify(docs_data));
     let data = docs_data[0].options;
-    if (data[0].option !== "") {
-        await QuestionnaireRepository.updateOptionById(id,data);
+    if (data !== "") {
+        await QuestionnaireRepository.updateOptionById(docs_data[0].id, data );
     }
-    await QuestionnaireRepository.updateFieldById(id,docs_data);
+    await QuestionnaireRepository.updateFieldById(docs_data[0].id, docs_data);
 
-
-    //fs.unlinkSync(`./files/${name}.json`);
 })
 
 

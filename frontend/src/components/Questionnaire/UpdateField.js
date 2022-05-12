@@ -4,7 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
-import AddQuestionnaireForm from './AddQuestionnaireForm';
+import QuestionnaireForm from './QuestionnaireForm';
 import { IconButton } from '@material-ui/core'
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
@@ -53,15 +53,16 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 };
 
-export default function AddField() {
+export default function UpdateField() {
   const classes = useStyles();
   const [value, setValue] = useState(0);
+
 
   return (
     <Paper className={classes.root}>
 
       <TabPanel value={value} index={0}>
-        <AddQuestionnaireForm />
+        <QuestionnaireForm />
 
 
       </TabPanel>

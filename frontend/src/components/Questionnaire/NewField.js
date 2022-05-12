@@ -3,20 +3,12 @@ import "./NewField.css"
 import blank from "../../images/ppp.png";
 import { useNavigate } from "react-router-dom";
 import  uuid from "react-uuid";
-import axios from "axios";
 export default function NewField() {
     const history = useNavigate();
 
     function createform(){
         var create_form_id = uuid();
-        history("/form/" + create_form_id)
-   // var questions_list=[{questionText: "Question", questionType:"radio", type:"text", options : [{optionText: ""}], open: true, required:false}]
-    
-        // axios.post(`http://localhost:5555/questionnaire/add_questions/${create_form_id}`,{
-        //     "document_name": "untitled_form",
-        //     "doc_desc": "Add Description",
-        //     "questions": questions_list,
-        //   })
+        history("add/form/" + create_form_id)
     }
     return (
         <div className="template_section">
