@@ -108,6 +108,11 @@ td {
     float: left;
 }
 
+.sortandfilter_mdb_row{
+    display: inline;
+    margin-top: 30px;
+}
+
 .sort_select {
     width: 50%;
     border-radius: 5px;
@@ -121,9 +126,8 @@ td {
 
 }
 
-.sort_mdb_row .sort_mdb_col h5 {
+.sortandfilter_mdb_row .sort_mdb_col h5 {
     font-family: 'Google Sans', Roboto, Arial, sans-serif;
-    /* color: #847E7C; */
     color: #635e5c;
     display: inline;
     font-weight: bolder;
@@ -131,7 +135,69 @@ td {
     padding: 7px
 }
 
-.sort_mdb_row .sort_mdb_col {
+.sortandfilter_mdb_row .sort_mdb_col {
     margin: 20px 65% 30px 0px;
 
+}
+
+
+.sortandfilter_mdb_row .filter_mdb_col{
+    /* margin: -65px 0px 30px 950px; */
+    margin: -65px 30px 20px 65%;
+
+}
+
+.filter_byh5{
+    font-family: 'Google Sans', Roboto, Arial, sans-serif;
+    color: #635e5c;
+    display: inline;
+    font-weight: bolder;
+    font-size: 1rem;
+    padding: 7px;
+
+}
+
+.filterbtn{
+    color: #847E7C;
+    background-color: #FFDAC4;
+    width: 120px;
+    height: 30px;
+    border: solid 1px #FFDAC4;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1rem;
+    font-family: 'Google Sans', Roboto, Arial, sans-serif;
+    margin: 7px;
+}
+
+.unitsOption{
+    color: white;
+    background-color: #847E7C;
+    width: 30px;
+    height: 25px;
+    border: solid 1px #847E7C;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1rem;
+    font-family: 'Google Sans', Roboto, Arial, sans-serif;
+    margin: 8px;
+
+}
+
+.livingAreaOption{
+    color: white;
+    background-color: #847E7C;
+    width: 120px;
+    height: 30px;
+    border: solid 1px #847E7C;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1rem;
+    font-family: 'Google Sans', Roboto, Arial, sans-serif;
+    margin: 8px;
+
+}
+
+.allFilterButtons{
+    display: inline;
 }
