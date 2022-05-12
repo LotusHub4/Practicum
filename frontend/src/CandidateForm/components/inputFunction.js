@@ -7,9 +7,7 @@ export function InputFunction(props) {
 
     const [input, setInput] = useState({
         name: props.curr.name,
-        value: "",
-        label: props.curr.label,
-        type: ""
+        value: ""
     });
 
 
