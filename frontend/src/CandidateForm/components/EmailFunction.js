@@ -7,9 +7,7 @@ export function EmailFunction(props) {
 
     const [email, setEmail] = useState({
         name: props.curr.name,
-        value: "",
-        label: props.curr.label,
-        type: ""
+        value: ""
     });
 
     console.log(email);

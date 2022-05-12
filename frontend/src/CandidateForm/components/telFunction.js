@@ -6,9 +6,7 @@ import { useState } from 'react';
 export function TelFunction(props) {
     const [phone, setPhone] = useState({
         name: props.curr.name,
-        value: "",
-        label: props.curr.label,
-        type: ""
+        value: ""
     });
 
 

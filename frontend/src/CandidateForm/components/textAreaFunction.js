@@ -6,9 +6,7 @@ export function TextAreaFunction(props) {
 
     const [text, setText] = useState({
         name: props.curr.name,
-        value: "",
-        label: props.curr.label,
-        type: ""
+        value: ""
     });
 
 
