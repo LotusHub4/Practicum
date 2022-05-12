@@ -3,27 +3,47 @@
 
 import { useState } from 'react';
 import '../form.css'
+import { switchFunctions } from './switchFields';
+import { MdStar } from 'react-icons/md';
 
 
 export function NumberFunction(props) {
+    const isRequired = props.curr.requierd
 
+    let [isWrong, setIsWrong] = useState(false);
+    let [wrongReason, setReason] = useState("")
     const [number, setNumber] = useState({
         name: props.curr.name,
         value: ""
     });
+    function checkInput(value){
+    setReason(switchFunctions(props.curr.funcName, props.curr.properties, value))
 
+    if (wrongReason !== "OK") {
+        setIsWrong(!isWrong)
+    }
+    else {
+        setIsWrong(false)
+        setNumber({ ...number, value: value })
+    }
+    }
 
     props.func(number)
 
     return (
         <div className='divAroundAllNumber'>
             <label className='numberLabel'> {props.curr.label}</label>
+            {isRequired ?
 
-            <div className='numberInput'>
-                <input type="number" min={props.curr.properties.min} max={props.curr.properties.max} onBlur={(event) => setNumber({ ...number, value: event.target.value })} />
+<div>
+                    <MdStar color='red'></MdStar>
+                <input className='divAroundInput' type={props.curr.properties.inputType} placeholder={props.curr.label} required onBlur={(event) => checkInput(event.target.value)} />
+				</div>
+                :
+                <input className='divAroundInput' type={props.curr.type} placeholder={props.curr.label} required onBlur={(event) => checkInput(event.target.value)} />
 
-            </div>
-
+            }
+            {isWrong ? <span>{wrongReason}</span> : ""}
         </div>
     )
 }
