@@ -7,16 +7,17 @@ function getAllFields() {
         const fields = pool.query(`SELECT *
         FROM questionnairfields`, (err, rows) => {
             if (!err) {
-                pool.release()
+                resolve(rows)
+
             } else {
                 console.log(err)
-                pool.release()
                 reject(err);
             }
 
-            resolve(rows)
 
         })
+        pool.release()
+
     })
 }
 
@@ -31,42 +32,66 @@ function getOptionById(id) {
         pool.query(`SELECT id,option
            FROM optiontype where idQuestionnaire=${id} ;`, (err, rows) => {
             if (!err) {
-                pool.release();
+
+                resolve(rows);
+
             }
             else {
                 console.log(err);
-                pool.release();
                 reject(err);
             }
-            resolve(rows);
 
         });
-
+        pool.release()
     });
 }
 exports.getOptionById = getOptionById
 
+function getFieldById(id) {
+    // const questions = {questionnaire:{},options:[]};
+    return new Promise(async (resolve, reject) => {
+        let pool = await connect.connectionfun();
+
+        pool.query(`SELECT *
+           FROM questionnairfields where file='${id}' ;`, (err, rows) => {
+            if (!err) {
+                resolve(rows);
+
+            }
+            else {
+                console.log(err);
+                reject(err);
+            }
+
+        });
+        pool.release()
+
+    });
+}
+exports.getFieldById = getFieldById
 
 
 function addNewField(req, id) {
-    let newField = req.questions;
+
+    let newField = req;
     return new Promise(async (resolve, reject) => {
         let pool = await connect.connectionfun();
-        for (let i = 0; i < newField.length; i++) {
-            var d = new Date();
 
-            pool.query(`INSERT INTO questionnairfields (file,nameField,typeField,type,createDate,required) VALUES('${id}','${newField[i].questionText}', '${newField[i].questionType}','${newField[i].type}','${d}', ${newField[i].required})`, (err, rows) => {
+            var d = new Date();
+            pool.query('INSERT INTO questionnairfields (file,nameField,typeField,type,createDate,required) VALUES(?,?,?,?,?,?)', [id, newField.questionText, newField.questionType, newField.type, d, newField.required], (err, rows) => {
                 if (!err) {
-                    resolve('your insert data is succesfull')
                     pool.release()
+
+                    resolve(rows);
+
+
                 } else {
                     console.log(err);
-                    pool.release()
                     reject(err);
                 }
             })
+    
 
-        }
     })
 }
 exports.addNewField = addNewField;
@@ -75,23 +100,23 @@ exports.addNewField = addNewField;
 function addNewOption(optArray, id) {
     return new Promise(async (resolve, reject) => {
         let pool = await connect.connectionfun();
-        console.log("hhhh " + optArray);
-        for (let i = 0; i < optArray.length; i++) {
-
-            pool.query(`INSERT INTO optiontype (option,idQuestionnaire) VALUES ('${optArray[i].option}', (SELECT id from questionnairfields WHERE file='${id}'));`), (err, rows) => {
+             pool.query(`INSERT INTO optiontype (option,idQuestionnaire) VALUES('${optArray.option}',${id})`, (err, rows) => {
                 if (!err) {
-
-                    resolve('your insert data is succesfull')
                     pool.release()
-                } else {
+                    resolve('your insert data is succesfull');
 
 
+
+                }
+                else {
                     console.log(err);
-                    pool.release()
                     reject(err);
                 }
-            }
-        }
+            })
+
+            
+        
+        
     })
 }
 exports.addNewOption = addNewOption;
@@ -103,14 +128,14 @@ function deleteFieldById(id) {
         pool.query(`DELETE FROM questionnairfields WHERE id=${id}`, (err, rows) => {
             if (!err) {
                 console.log('The data from questtionaire table are: \n', rows);
-                resolve('Delete data is succesfull')
-                pool.release()
+                resolve('Delete data is succesfull');
+
             } else {
                 console.log(err);
-                pool.release()
                 reject(err);
             }
         })
+        pool.release()
 
     })
 }
@@ -121,15 +146,14 @@ function deleteOptionById(id) {
         let pool = await connect.connectionfun();
         pool.query(`DELETE FROM optiontype WHERE idQuestionnaire=${id}`, (err, rows) => {
             if (!err) {
-                console.log('The data from optiontype table are: \n', rows);
-                resolve('Delete data is succesfull')
-                pool.release()
+                resolve(rows);
+
             } else {
                 console.log(err);
-                pool.release()
                 reject(err);
             }
         })
+        pool.release()
 
     })
 }
@@ -145,61 +169,59 @@ function updateFieldById(id, req) {
             SET nameField = '${req[i].questionText}', typeField = '${req[i].type}',required = ${req[i].required}
             WHERE id=${id};`, (err, rows) => {
                 if (!err) {
-                    console.log('The data from questtionNaire table are: \n', rows);
-                    resolve('Delete data is succesfull')
-                    pool.release()
+                    resolve(rows);
+
                 } else {
                     console.log(err);
-                    pool.release()
                     reject(err);
                 }
             })
 
         }
+        pool.release()
 
     })
+
 }
 exports.updateFieldById = updateFieldById;
 
-function updateOptionById(id,req) {
+function updateOptionById(id, req) {
     return new Promise(async (resolve, reject) => {
         let pool = await connect.connectionfun();
         for (let i = 0; i < req.length; i++) {
-
-            if(req[i].id !== undefined)
-            {
-
-            pool.query(`UPDATE optiontype
+            if (req[i].id !== undefined) {
+                if (req[i].option != "") {
+                    pool.query(`UPDATE optiontype
             SET option='${req[i].option}'
             WHERE id=${req[i].id};`, (err, rows) => {
-                if (!err) {
-                    console.log('The data from optiontype table are: \n', rows);
-                    resolve('Update data is succesfull')
-                    pool.release()
-                } else {
-                    console.log(err);
-                    pool.release()
-                    reject(err);
+                        if (!err) {
+                            resolve(rows);
+
+                        } else {
+                            console.log(err);
+                            reject(err);
+                        }
+                    })
                 }
-            })
-        }else{
-            console.log("ttt"  + req[i].option);
-
-            pool.query(`INSERT INTO optiontype (option,idQuestionnaire) VALUES ('${req[i].option}',${id})`), (err, rows) => {
-                if (!err) {
-
-                    resolve('your insert data is succesfull')
-                    pool.release()
-                } else {
-
-
-                    console.log(err);
-                    pool.release()
-                    reject(err);
+                else {
+                    deleteOptionById(id);
                 }
+            } else {
+                pool.query('INSERT INTO optiontype (option,idQuestionnaire) VALUES(?,?)', [req[i].option, id], (err, rows) => {
+                    if (!err) {
+
+                        resolve('your insert data is succesfull');
+
+                    } else {
+
+
+                        console.log(err);
+                        reject(err);
+                    }
+                })
             }
         }
-        }
+        pool.release();
 
 
     })
