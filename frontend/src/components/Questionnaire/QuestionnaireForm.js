@@ -62,7 +62,6 @@ export default function QuestionnaireForm() {
     async function data_adding() {
       var request = await axios.get(`http://localhost:5555/questionnaire/data/${id}`);
       var question_data = request.data.questions;
-
       var doc_name = question_data.file
       seteditId(question_data[0].id);
       setType(question_data[0].questionType)
@@ -96,7 +95,7 @@ export default function QuestionnaireForm() {
       questions: questions
 
     })
-     axios.put(`http://localhost:5555/questionnaire/update_questions/${editId}`, {
+     axios.put(`http://localhost:5555/questionnaire/update_questions/`, {
       "questions": questions,
     }).then(res=>{
       console.log(res);
@@ -134,12 +133,16 @@ export default function QuestionnaireForm() {
 
   }
 
-  function deleteQuestion(i) {
+  function deleteQuestion(i,id) {
+
     let qs = [...questions];
     if (questions.length > 1) {
-      qs.splice(i, 1);
+      axios.delete(`http://localhost:5555/questionnaire/delete_question/${id}`)
+      //qs.splice(i, 1);
+      history("/questionnaire")
+
     } else {
-      axios.delete(`http://localhost:5555/questionnaire/delete_question/${editId}`)
+      axios.delete(`http://localhost:5555/questionnaire/delete_question/${id}`)
       history("/questionnaire")
     }
 
@@ -403,7 +406,7 @@ export default function QuestionnaireForm() {
                               <FilterNoneIcon />
                             </IconButton>
 
-                            <IconButton aria-label="delete" onClick={() => { deleteQuestion(i) }}>
+                            <IconButton aria-label="delete" onClick={() => { deleteQuestion(i,ques.id) }}>
                               <BsTrash />
                             </IconButton>
                             <span style={{ color: "#5f6368", fontSize: "13px" }}>Required </span> <Switch name="checkedA" color="primary" checked={ques.required} onClick={() => { requiredQuestion(i) }} />

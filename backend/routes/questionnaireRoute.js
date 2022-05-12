@@ -67,7 +67,7 @@ router.post(`/add_questions/:doc_id`, async (req, res) => {
 router.delete(`/delete_question/:doc_id`, async (req, res) => {
     var id = req.params.doc_id;
     if (id !== 'undefined') {
-        await QuestionnaireRepository.deleteOptionById(id);
+        await QuestionnaireRepository.deleteOptionCardById(id);
 
         await QuestionnaireRepository.deleteFieldById(id);
     }
@@ -76,14 +76,15 @@ router.delete(`/delete_question/:doc_id`, async (req, res) => {
 
 
 //update data by id
-router.put(`/update_questions/:doc_id`, async (req, res) => {
-    var id = req.params.doc_id;
+router.put(`/update_questions/`, async (req, res) => {
     var docs_data = req.body.questions;
-    let data = docs_data[0].options;
-    if (data !== "") {
-        await QuestionnaireRepository.updateOptionById(docs_data[0].id, data );
+    for (let i = 0; i < docs_data.length; i++) {
+        let data = docs_data[i].options;
+
+        await QuestionnaireRepository.updateOptionById(data,docs_data[i].id );
     }
-    await QuestionnaireRepository.updateFieldById(docs_data[0].id, docs_data);
+    
+    await QuestionnaireRepository.updateFieldById( docs_data);
 
 })
 
