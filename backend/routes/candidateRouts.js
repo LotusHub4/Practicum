@@ -69,7 +69,7 @@ router.get("/fieldFromDB", async (req, res) => {
                                 break;
                             case "units":
                                 //input number
-                                field = helpFunctions.handleField(name, "input", rows[i].nameField, "checkRange", rows[i].required, { inputType: "text", min: 0, max: 100 })
+                                field = helpFunctions.handleField(name, "input", rows[i].nameField, "checkRange", rows[i].required, { inputType: "text", min: 0, max: 10 })
 
                                 break;
                             case "text":

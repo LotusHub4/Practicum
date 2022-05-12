@@ -13,18 +13,16 @@ import { checknumOfDigitsAndRange } from '../tests';
 import { isAllLetters } from '../tests';
 import { checkEmail } from '../tests';
 import { checkImgEnds } from '../tests';
+import { CheckboxFunction } from './checkboxFunction';
 
 
 
 export function SwitchFields(props) {
 
-    console.log(props);
 
     function pullFieldData(field) {
-
         //This test is not working ! i need to do it better 
         if ( !props.candidate.includes(field)) {
-            console.log(props.candidate);
             if (props.candidate.length === 0) {
                 props.candidate.push(field);
             }
@@ -39,7 +37,6 @@ export function SwitchFields(props) {
 
                         props.candidate.pop()
                         props.candidate.push(field)
-                        console.log(props);
                         flag = true
                     }
 
@@ -64,7 +61,8 @@ export function SwitchFields(props) {
 
                 case "tel":
                     return <TelFunction curr={props.curr} func={pullFieldData} />;
-
+                case "checkbox":
+                    return <CheckboxFunction curr={props.curr} func={pullFieldData} />;
                 case "number":
                     return <NumberFunction curr={props.curr} func={pullFieldData} />;
 
@@ -96,18 +94,18 @@ export function SwitchFields(props) {
 }
 
 
-function switchFunctions(funcName, properties, value) {
+export function switchFunctions(funcName, properties, value) {
     switch (funcName) {
         case "checkRange":
             return checkRange(properties.min, properties.max, value);
         case "numOfDigits":
-            return numOfDigits(properties.numDig, value);
+            return numOfDigits(value,properties.numDig);
         case "checknumOfDigitsAndAllDigits":
-            return checknumOfDigitsAndAllDigits(properties.numDig, value);
+            return checknumOfDigitsAndAllDigits(value,properties.numDig);
         case "isAllDigits":
             return isAllDigits(value);
         case "checknumOfDigitsAndRange":
-            return checknumOfDigitsAndRange(properties.min, properties.max, properties.numDig, value);
+            return checknumOfDigitsAndRange( value, properties.numDig,properties.min, properties.max);
         case "isAllLetters":
             return isAllLetters(value);
         case "checkEmail":
