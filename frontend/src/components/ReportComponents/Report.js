@@ -1,7 +1,7 @@
 import './Report.css';
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import {MDBTable, MDBTableHead, MDBTableBody, MDBRow, MDBCol, MDBContainer, MDBBtn} from "mdb-react-ui-kit";
+import {MDBTable, MDBTableHead, MDBTableBody, MDBRow, MDBCol, MDBContainer, MDBBtnGroup} from "mdb-react-ui-kit";
 
 export function Report(){
   const dataList = axios.get("http://localhost:5555/candidates");
@@ -22,6 +22,8 @@ export function Report(){
   const handleReset = () => {
     loadUserData();  
   };
+
+
   const handleSearch = async (e) => 
   {e.preventDefault(); 
     console.log(value);
@@ -44,6 +46,25 @@ setData(response.data);
 .catch((err) => console.log("there was an error", err));
 };
 
+const handleFilter = async (value) => {
+return await axios.get(`http://localhost:5555/candidates/filterOptions/` + `${value}`)
+.then((response) => {
+setData(response.data);
+})
+.catch((err) => console.log("there was an error", err));
+};
+
+const handleFilterEnglish = async (value) => {
+  return await axios.get(`http://localhost:5555/candidates/englishLevel/` + `${value}`)
+  .then((response) => {
+  setData(response.data);
+  })
+  .catch((err) => console.log("there was an error", err));
+  };
+
+  const [mathOpen, setMathOpen] = useState(false);
+  const [englishOpen, setEnglishOpen] = useState(false);
+  const [livingAreaOpen, setLivingAreaOpen] = useState(false);
   return(
     <div className='container'>
     <img class='lotus-logo' src='./lotuslogo2.PNG'/>
@@ -55,6 +76,49 @@ setData(response.data);
       <button type='submit' className='searchbtn'>Search</button>
       <button className='resetbtn' onClick={() => handleReset()}>Reset</button>
       </form>
+      <MDBRow className='sortandfilter_mdb_row'>
+       <MDBCol className='sort_mdb_col'>
+         <h5>Sort by:</h5>
+          <select className='sort_select'onChange={handleSort} 
+         value={sortValue}>
+           <option value="" disabled selected>select your option</option>
+           {sortOptions.map((item,index) => (
+             <option value={item} key={index}>{item} </option>
+           ))}
+         </select>
+       </MDBCol>
+       <MDBCol className='filter_mdb_col'>
+         <h5 className='filter_byh5'>Filter by:</h5>
+         <MDBBtnGroup className='allFilterButtons'>
+           <button className='filterbtn'  onClick={() => { setMathOpen(mathOpen ? false : true) }}>
+             Math Level 
+            </button>
+            {mathOpen &&
+         <div className='mathleveloptions'>
+         <button className='unitsOption' onClick={() => handleFilter("3")}>3</button> 
+         <button className='unitsOption' onClick={() => handleFilter("4")}>4</button>
+         <button className='unitsOption' onClick={() => handleFilter("5")}>5</button>
+         </div>}
+           <button className='filterbtn'  onClick={() => { setEnglishOpen(englishOpen ? false : true) }}>
+             English Level
+           </button>
+           {englishOpen &&
+         <div>
+         <button className='unitsOption' onClick={() => handleFilterEnglish("3")}>3</button> 
+         <button className='unitsOption' onClick={() => handleFilterEnglish("4")}>4</button>
+         <button className='unitsOption' onClick={() => handleFilterEnglish("5")}>5</button>
+         </div>}
+           <button className='filterbtn'  onClick={() => { setLivingAreaOpen(livingAreaOpen ? false : true) }}>
+             Living Area
+           </button>
+           {livingAreaOpen &&
+         <div>
+         <button className='livingAreaOption' onClick={() => handleFilter("Karmel")}>Karmel</button> 
+         <button className='livingAreaOption' onClick={() => handleFilter("Upper Galilee")}>Upper Galilee</button>
+         </div>}
+         </MDBBtnGroup>
+       </MDBCol>
+      </MDBRow>
       <div className='mdbrow'>
         <h2 className='candidateword'>
          Candidates 
@@ -99,20 +163,7 @@ setData(response.data);
       </MDBTable>
     </MDBRow>
       </div>
-      <MDBRow>
-       <MDBCol>
-         <h5>Sort By :</h5>
-         <select onChange={handleSort}
-         value={sortValue}>
-           <option>Please Select Value</option>
-           {sortOptions.map((item,index) => (
-             <option value={item} key={index}>{item} </option>
-           ))}
-         </select>
-
-       </MDBCol>
-       <MDBCol></MDBCol>
-      </MDBRow>
+      
     </MDBContainer>
     
 

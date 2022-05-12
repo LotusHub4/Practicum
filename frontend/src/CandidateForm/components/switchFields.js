@@ -13,6 +13,7 @@ import { checknumOfDigitsAndRange } from '../tests';
 import { isAllLetters } from '../tests';
 import { checkEmail } from '../tests';
 import { checkImgEnds } from '../tests';
+import { CheckboxFunction } from './checkboxFunction';
 
 
 
@@ -20,11 +21,33 @@ export function SwitchFields(props) {
 
 
     function pullFieldData(field) {
+        //This test is not working ! i need to do it better 
+        if ( !props.candidate.includes(field)) {
+            if (props.candidate.length === 0) {
+                props.candidate.push(field);
+            }
+            else {
+                let flag = false
+                for (let i = 0; i < props.candidate.length; i++) {
 
-        if (field.value !== "" && !props.candidate.includes(field)) {
-            props.candidate.push(field);
+                    if (props.candidate[i].name === field.name) {
+                        let obj = props.candidate[props.candidate.length - 1];
+                        props.candidate[props.candidate.length - 1] = props.candidate[i];
+                        props.candidate[i] = obj;
+
+                        props.candidate.pop()
+                        props.candidate.push(field)
+                        flag = true
+                    }
+
+                }
+                if (!flag) {
+                    props.candidate.push(field);
+                }
+
+            }
+
         }
-
     }
 
     switch (props.curr.type) {
@@ -38,7 +61,8 @@ export function SwitchFields(props) {
 
                 case "tel":
                     return <TelFunction curr={props.curr} func={pullFieldData} />;
-
+                case "checkbox":
+                    return <CheckboxFunction curr={props.curr} func={pullFieldData} />;
                 case "number":
                     return <NumberFunction curr={props.curr} func={pullFieldData} />;
 
@@ -50,17 +74,17 @@ export function SwitchFields(props) {
         case "select":
             switch (props.curr.properties.multiple) {
                 case true:
-                    return <Select curr={props.curr} />;
+                    return <Select curr={props.curr} func={pullFieldData} />;
 
                 case false:
-                    return <Select curr={props.curr} />;
+                    return <Select curr={props.curr} func={pullFieldData} />;
                 default:
                     break;
             }
             break;
 
         case "textArea":
-            return <TextAreaFunction curr={props.curr} />
+            return <TextAreaFunction curr={props.curr} func={pullFieldData} />
 
 
         default:
@@ -70,18 +94,18 @@ export function SwitchFields(props) {
 }
 
 
-function switchFunctions(funcName, properties, value) {
+export function switchFunctions(funcName, properties, value) {
     switch (funcName) {
         case "checkRange":
             return checkRange(properties.min, properties.max, value);
         case "numOfDigits":
-            return numOfDigits(properties.numDig, value);
+            return numOfDigits(value,properties.numDig);
         case "checknumOfDigitsAndAllDigits":
-            return checknumOfDigitsAndAllDigits(properties.numDig, value);
+            return checknumOfDigitsAndAllDigits(value,properties.numDig);
         case "isAllDigits":
             return isAllDigits(value);
         case "checknumOfDigitsAndRange":
-            return checknumOfDigitsAndRange(properties.min, properties.max, properties.numDig, value);
+            return checknumOfDigitsAndRange( value, properties.numDig,properties.min, properties.max);
         case "isAllLetters":
             return isAllLetters(value);
         case "checkEmail":

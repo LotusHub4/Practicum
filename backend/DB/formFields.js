@@ -75,7 +75,8 @@ exports.fields =
          "requierd": true,
          "properties": {
             "inputType": "tel",
-            "pattern": "[0-9]*8"
+            "pattern": "[0-9]*8",
+            "numDig":"8"
          }
       },
       {
@@ -180,7 +181,9 @@ exports.fields =
          "funcName": "checkRange",
          "requierd": false,
          "properties": {
-            "inputType": "text"
+            "inputType": "text",
+            "min": "0",
+            "max": "100"
          }
       },
       {
@@ -200,7 +203,8 @@ exports.fields =
          "funcName": "numOfDigits",
          "requierd": false,
          "properties": {
-            "inputType": "text"
+            "inputType": "text",
+            "numDig":"3"
          }
       },
 

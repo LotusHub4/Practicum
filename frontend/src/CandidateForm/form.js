@@ -1,12 +1,5 @@
 import { useEffect, useState } from 'react';
 import axios from "axios";
-import { TextAreaFunction } from './components/textAreaFunction';
-import { EmailFunction } from './components/EmailFunction';
-import { InputFunction } from './components/inputFunction';
-import { Select } from './components/select';
-import { TelFunction } from './components/telFunction';
-import { NumberFunction } from './components/numberFunction';
-
 import { SwitchFields } from './components/switchFields';
 
 
@@ -18,6 +11,15 @@ export function Form() {
         e.preventDefault()
         console.log(candidate);
 
+
+        axios.post('http://127.0.0.1:5555/candidateForm/addCandidate', {
+            candidate
+        })
+            .then(res => {
+                console.log(res);
+                console.log(res.data);
+
+            })
     }
 
 
