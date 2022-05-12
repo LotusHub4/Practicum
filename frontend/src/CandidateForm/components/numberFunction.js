@@ -9,9 +9,7 @@ export function NumberFunction(props) {
 
     const [number, setNumber] = useState({
         name: props.curr.name,
-        value: "",
-        label: props.curr.label,
-        type: ""
+        value: ""
     });
 
 

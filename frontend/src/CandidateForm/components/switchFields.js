@@ -23,7 +23,7 @@ export function SwitchFields(props) {
     function pullFieldData(field) {
 
         //This test is not working ! i need to do it better 
-        if (field.value !== "" && !props.candidate.includes(field)) {
+        if (!props.candidate.includes(field)) {
             console.log(props.candidate);
             if (props.candidate.length === 0) {
                 props.candidate.push(field);
