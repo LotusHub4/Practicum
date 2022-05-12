@@ -4,8 +4,7 @@ const connect = require('../DB/dbconfig');
 function getAllFields() {
     return new Promise(async (resolve, reject) => {
         let pool = await connect.connectionfun()
-        const fields = pool.query(`SELECT *
-        FROM questionnairfields`, (err, rows) => {
+        const fields = pool.query(`SELECT file ,id,nameField,typeField,createDate,required,type , COUNT(*) FROM questionnairfields GROUP BY file HAVING COUNT(*) > 1`, (err, rows) => {
             if (!err) {
                 resolve(rows)
 
@@ -77,20 +76,20 @@ function addNewField(req, id) {
     return new Promise(async (resolve, reject) => {
         let pool = await connect.connectionfun();
 
-            var d = new Date();
-            pool.query('INSERT INTO questionnairfields (file,nameField,typeField,type,createDate,required) VALUES(?,?,?,?,?,?)', [id, newField.questionText, newField.questionType, newField.type, d, newField.required], (err, rows) => {
-                if (!err) {
-                    pool.release()
+        var d = new Date();
+        pool.query('INSERT INTO questionnairfields (file,nameField,typeField,type,createDate,required) VALUES(?,?,?,?,?,?)', [id, newField.questionText, newField.questionType, newField.type, d, newField.required], (err, rows) => {
+            if (!err) {
+                pool.release()
 
-                    resolve(rows);
+                resolve(rows);
 
 
-                } else {
-                    console.log(err);
-                    reject(err);
-                }
-            })
-    
+            } else {
+                console.log(err);
+                reject(err);
+            }
+        })
+
 
     })
 }
@@ -100,23 +99,23 @@ exports.addNewField = addNewField;
 function addNewOption(optArray, id) {
     return new Promise(async (resolve, reject) => {
         let pool = await connect.connectionfun();
-             pool.query(`INSERT INTO optiontype (option,idQuestionnaire) VALUES('${optArray.option}',${id})`, (err, rows) => {
-                if (!err) {
-                    pool.release()
-                    resolve('your insert data is succesfull');
+        pool.query(`INSERT INTO optiontype (option,idQuestionnaire) VALUES('${optArray.option}',${id})`, (err, rows) => {
+            if (!err) {
+                pool.release()
+                resolve('your insert data is succesfull');
 
 
 
-                }
-                else {
-                    console.log(err);
-                    reject(err);
-                }
-            })
+            }
+            else {
+                console.log(err);
+                reject(err);
+            }
+        })
 
-            
-        
-        
+
+
+
     })
 }
 exports.addNewOption = addNewOption;
@@ -144,7 +143,7 @@ exports.deleteFieldById = deleteFieldById;
 function deleteOptionById(id) {
     return new Promise(async (resolve, reject) => {
         let pool = await connect.connectionfun();
-        pool.query(`DELETE FROM optiontype WHERE idQuestionnaire=${id}`, (err, rows) => {
+        pool.query(`DELETE FROM optiontype WHERE id=${id}`, (err, rows) => {
             if (!err) {
                 resolve(rows);
 
@@ -159,15 +158,33 @@ function deleteOptionById(id) {
 }
 exports.deleteOptionById = deleteOptionById;
 
+function deleteOptionCardById(id) {
+    return new Promise(async (resolve, reject) => {
+        let pool = await connect.connectionfun();
+        pool.query(`DELETE FROM optiontype WHERE idQuestionnaire=${id}`, (err, rows) => {
+            if (!err) {
+                resolve(rows);
+
+            } else {
+                console.log(err);
+                reject(err);
+            }
+        })
+        pool.release()
+
+    })
+}
+exports.deleteOptionCardById = deleteOptionCardById;
 
 
-function updateFieldById(id, req) {
+
+function updateFieldById(req) {
     return new Promise(async (resolve, reject) => {
         let pool = await connect.connectionfun();
         for (let i = 0; i < req.length; i++) {
             pool.query(`UPDATE questionnairfields
             SET nameField = '${req[i].questionText}', typeField = '${req[i].type}',required = ${req[i].required}
-            WHERE id=${id};`, (err, rows) => {
+            WHERE id=${req[i].id};`, (err, rows) => {
                 if (!err) {
                     resolve(rows);
 
@@ -185,7 +202,7 @@ function updateFieldById(id, req) {
 }
 exports.updateFieldById = updateFieldById;
 
-function updateOptionById(id, req) {
+function updateOptionById(req,id) {
     return new Promise(async (resolve, reject) => {
         let pool = await connect.connectionfun();
         for (let i = 0; i < req.length; i++) {
@@ -204,7 +221,7 @@ function updateOptionById(id, req) {
                     })
                 }
                 else {
-                    deleteOptionById(id);
+                    deleteOptionById(req[i].id);
                 }
             } else {
                 pool.query('INSERT INTO optiontype (option,idQuestionnaire) VALUES(?,?)', [req[i].option, id], (err, rows) => {
