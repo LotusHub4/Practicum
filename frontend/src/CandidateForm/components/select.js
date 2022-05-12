@@ -15,7 +15,7 @@ export function Select(props) {
 
     const [select, setSelect] = useState({
         name: props.curr.name,
-        value: isMultiple ?[]:""
+        value: isMultiple?[]:""
     });
 
 
@@ -45,7 +45,7 @@ export function Select(props) {
                             {
                                 more ? options.map((curr, i) => (
                                     <div>
-                                        <input type="checkbox" class='myCheckBox' value={curr.name} onChange={() => setSelect({ ...select, value:[...select.value,curr] })} /> <label> {curr}</label>
+                                        <input type="checkbox" class='myCheckBox' value={curr.name} onChange={() => setSelect({ ...select, value: [...select.value,curr] })} /> <label> {curr}</label>
                                     </div>
                                 )) : ""
 

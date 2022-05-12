@@ -32,6 +32,28 @@ router.get("/sort/:value", async (req, res) => {
     }
 });
 
+router.get("/filterOptions/:value", async (req, res) => {
+    try {
+        const x = await reportRepository.getFilterOptions(req.params.value);
+        console.log(req.params.value);
+        res.send(x);
+    } catch (e) {
+        console.log(e);
+    }
+});
+
+router.get("/englishLevel/:value", async (req, res) => {
+    try {
+        const x = await reportRepository.getEnglishLevel(req.params.value);
+        console.log(req.params.value);
+        res.send(x);
+    } catch (e) {
+        console.log(e);
+    }
+});
+
+
+
 //===================================================================================
 
 // get Candidate by id
