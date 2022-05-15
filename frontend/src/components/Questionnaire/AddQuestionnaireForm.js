@@ -37,8 +37,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 
-export default function QuestionnaireForm() {
+export default function AddQuestionnaireForm() {
   const history = useNavigate();
+
   const [{ }, dispatch] = useStateValue();
   const [questions, setQuestions] = useState([]);
   const [documentName, setDocName] = useState("untitled Document");
@@ -58,25 +59,7 @@ export default function QuestionnaireForm() {
 
   }, [])
 
-  useEffect(() => {
-    async function data_adding() {
-      var request = await axios.get(`http://localhost:5555/questionnaire/data/${id}`);
-      var question_data = request.data.questions;
-      var doc_name = question_data.file
-      seteditId(question_data[0].id);
-      setType(question_data[0].questionType)
-      setQuestions(question_data)
-   
-
-      dispatch({
-        type: actionTypes.SET_QUESTIONS,
-        questions: question_data
-
-      })
-    }
-
-    data_adding()
-  }, [])
+  
 
   function changeType(e) {
     setType(e.target.id)
@@ -88,22 +71,38 @@ export default function QuestionnaireForm() {
     setType(questionType)
   }, [changeType])
 
-  
+  function saveQuestions() {
+    console.log("auto saving questions initiated");
+    var data = {
+      formId: "1256",
+      name: "My-new_file",
+      description: "first file",
+      questions: questions
+    }
+
+    setQuestions(questions)
+
+  }
+
+
+
    function  commitToDB() {
     dispatch({
       type: actionTypes.SET_QUESTIONS,
       questions: questions
 
     })
-     axios.put(`http://localhost:5555/questionnaire/update_questions/`, {
+
+
+     axios.post(`http://localhost:5555/questionnaire/add_questions/${id}`, {
       "questions": questions,
     }).then(res=>{
       console.log(res);
     }).catch(err=>{
       console.log(err);
     })
-    history("/questionnaire");
 
+    history("/questionnaire")
   }
 
 
@@ -133,19 +132,11 @@ export default function QuestionnaireForm() {
 
   }
 
-  function deleteQuestion(i,id) {
-
+  function deleteQuestion(i) {
     let qs = [...questions];
     if (questions.length > 1) {
-      axios.delete(`http://localhost:5555/questionnaire/delete_question/${id}`)
-      //qs.splice(i, 1);
-      history("/questionnaire")
-
-    } else {
-      axios.delete(`http://localhost:5555/questionnaire/delete_question/${id}`)
-      history("/questionnaire")
-    }
-
+      qs.splice(i, 1);
+    } 
     setQuestions(qs)
   }
 
@@ -182,6 +173,12 @@ export default function QuestionnaireForm() {
     return result;
   };
 
+  function showAsQuestion(i) {
+    let qs = [...questions];
+    qs[i].open = false;
+    setQuestions(qs);
+  }
+
   function addOption(i) {
     var optionsOfQuestion = [...questions];
     if (optionsOfQuestion[i].options.length < 5) {
@@ -209,6 +206,13 @@ export default function QuestionnaireForm() {
 
     setQuestions(Questions)
   }
+  function addAnswer(i) {
+    var answerOfQuestion = [...questions];
+
+    answerOfQuestion[i].answer = !answerOfQuestion[i].answer;
+
+    setQuestions(answerOfQuestion)
+  }
 
   function doneAnswer(i) {
     var answerOfQuestion = [...questions];
@@ -232,6 +236,7 @@ export default function QuestionnaireForm() {
     if (optionsOfQuestion[i].options.length > 1) {
       optionsOfQuestion[i].options.splice(j, 1);
       setQuestions(optionsOfQuestion)
+      console.log(i + "__" + j);
     }
   }
 
@@ -257,7 +262,6 @@ export default function QuestionnaireForm() {
   }
 
   function questionsUI() {
-    console.log("quesss " , questions);
     return questions.map((ques, i) => (
       <Draggable key={i} draggableId={i + 'id'} index={i}>
         {(provided, snapshot) => (
@@ -302,7 +306,7 @@ export default function QuestionnaireForm() {
                                   lineHeight: '20px',
                                   color: '#202124'
                                 }}>
-                                  {op.option}
+                                  {ques.options[j].option}
                                 </Typography>
                               } />
                             </div>
@@ -325,7 +329,7 @@ export default function QuestionnaireForm() {
                           <Select className="select" style={{ color: "#5f6368", fontSize: "13px" }} defaultValue={ques.questionType}>
 
 
-                            <option selected value={ques.questionType}>{ques.questionType}</option>
+                            <option selected disabled value={ques.questionType}>{ques.questionType}</option>
 
                             <MenuItem value="10" id="text" onClick={() => { addQuestionType(i, "text", "text") }}> <ShortTextIcon style={{ marginRight: "10px" }} />  Short Pharaghraph</MenuItem>
                             <MenuItem id="text" value="Text" onClick={() => { addQuestionType(i, "paragraph", "paragraph") }}> <SubjectIcon style={{ marginRight: "10px" }} />  Paragraph</MenuItem>
@@ -362,7 +366,7 @@ export default function QuestionnaireForm() {
 
                             }
                             <div >
-                              <input type="text" className="text_input" placeholder="option" value={op.option} onChange={(e) => { handleOptionValue(e.target.value, i, j) }}></input>
+                              <input type="text" className="text_input" placeholder="option" value={ques.options[j].option} onChange={(e) => { handleOptionValue(e.target.value, i, j) }}></input>
                             </div>
                           </div>
                         ))}
@@ -394,7 +398,7 @@ export default function QuestionnaireForm() {
                               <FilterNoneIcon />
                             </IconButton>
 
-                            <IconButton aria-label="delete" onClick={() => { deleteQuestion(i,ques.id) }}>
+                            <IconButton aria-label="delete" onClick={() => { deleteQuestion(i) }}>
                               <BsTrash />
                             </IconButton>
                             <span style={{ color: "#5f6368", fontSize: "13px" }}>Required </span> <Switch name="checkedA" color="primary" checked={ques.required} onClick={() => { requiredQuestion(i) }} />
@@ -426,7 +430,7 @@ export default function QuestionnaireForm() {
                               <div key={j}>
                                 <div style={{ display: 'flex' }} className="">
                                   <div className="form-check">
-                                    <label style={{ fontSize: "13px" }} onClick={() => { setOptionAnswer(op.option, i) }}>
+                                    <label style={{ fontSize: "13px" }} onClick={() => { setOptionAnswer(ques.options[j].option, i) }}>
 
                                       {(ques.questionType != "text") ?
                                         <input
@@ -441,7 +445,7 @@ export default function QuestionnaireForm() {
                                         <ShortTextIcon style={{ marginRight: "10px" }} />
                                       }
 
-                                      {op.option}
+                                      {ques.options[j].option}
                                     </label>
                                   </div>
                                 </div>
@@ -523,7 +527,7 @@ export default function QuestionnaireForm() {
           </DragDropContext>
 
           <div className="save_form">
-            <Button variant="contained" color="primary" onClick={commitToDB} style={{ fontSize: "14px" }} className="save-btn">Update</Button>
+            <Button variant="contained" color="primary" onClick={commitToDB} style={{ fontSize: "14px" }} className="save-btn">Save</Button>
 
           </div>
 
