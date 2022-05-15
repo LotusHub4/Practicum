@@ -14,9 +14,11 @@ export function InputFunction(props) {
     });
 
     function checkInput(value){
-        setReason(switchFunctions(props.curr.funcName,props.curr.properties,value))
         
-        if(wrongReason!=="OK"){
+        let res =switchFunctions(props.curr.funcName,props.curr.properties,value)
+        console.log(res);
+        if(res!=="OK" && res!==undefined){
+            setReason(res)
             setIsWrong(!isWrong)
         }
         else{
@@ -24,7 +26,6 @@ export function InputFunction(props) {
             setInput({...input,value:value})
         }
     }
-
     props.func(input)
 
     return (
@@ -35,10 +36,10 @@ export function InputFunction(props) {
 
 <div>
                     <MdStar color='red'></MdStar>
-                <input className='divAroundInput' type={props.curr.properties.inputType} placeholder={props.curr.label} required onBlur={(event) => setInput({ ...input, value: event.target.value })} />
+                <input className='divAroundInput' type={props.curr.properties.inputType} placeholder={props.curr.label} required onBlur={(event) => checkInput(event.target.value )} />
 				</div>
                 :
-                <input type={props.curr.type} placeholder={props.curr.label} onBlur={(event) => checkInput(event.target.value )} />
+                <input type={props.curr.properties.inputType} placeholder={props.curr.label} onBlur={(event) => checkInput(event.target.value )} />
             }
             {isWrong?<span>{wrongReason}</span>:""}
         </div>

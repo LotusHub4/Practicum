@@ -13,37 +13,42 @@ export function Select(props) {
     const isMultiple = props.curr.properties.multiple;
     const options = props.curr.properties.selectOptions;
     let [requierdAlert,setAlert]=useState(false);
-
+    const [value,setValue]=useState([]);
     const [select, setSelect] = useState({
         name: props.curr.name,
-        value: isMultiple?[]:options[0]
+        value: isMultiple?"":options[0]
     });
+    
     function checkCohices(val){
         if (isMultiple){
-            if (isRequired&&select.value.length===0) {
+            if (isRequired&&value.length===0) {
                 setAlert(!requierdAlert);
             }
-            if(select.value.includes(val)) {
-                for (let i = 0; i < select.value.length; i++) {
+            if(value.includes(val)) {
+                for (let i = 0; i < value.length; i++) {
 
-                    if (select.value[i] === val) {
-                        let obj = select.value[select.value.length - 1];
-                        select.value[select.value.length - 1] = val;
-                        select.value[i] = obj;
-                        select.value.pop()
+                    if (value[i] === val) {
+                        let obj = value[value.length - 1];
+                        value[value.length - 1] = val;
+                        value[i] = obj;
+                        value.pop()
                     }
 
                 }
             }
             else{
-                setSelect({ ...select, value: [...select.value,val] })
+                value.push(val)
             }
+            let str=""
+            value.forEach(element => {
+                str+=element+"-"
+            });
+            setSelect({...select,value:str})
         }
         else{
             setSelect({...select,value:val})
         }
     }
-
     props.func(select)
 
     return (
@@ -51,10 +56,11 @@ export function Select(props) {
             <label className='selectLabel'> {props.curr.label}</label>
             {isMultiple ?
                 <div className='selectClassinput'>
-                    {isRequired ?(requierdAlert?<span>you have to chick at least one choice</span>:"")&&
+                    {isRequired ?//(requierdAlert?<span>you have to chick at least one choice</span>:"")&&
                     <div>
                         <MdStar color='red'></MdStar>
-                        <span className='requiredCheckboxDiv'> {<MdOutlineExpandMore className='moreIcontrip' onClick={() => { setOpen(!more) }}></MdOutlineExpandMore>}
+                        <MdOutlineExpandMore className='moreIcontrip' onClick={() => { setOpen(!more) }}/>
+                        <span className='requiredCheckboxDiv'>
                             {
                                 more ? options.map((curr, i) => (
                                     <div key={i}>

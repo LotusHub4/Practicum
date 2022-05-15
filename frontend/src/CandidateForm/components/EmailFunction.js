@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import '../form.css'
 import { switchFunctions } from './switchFields';
+import { MdStar } from 'react-icons/md';
 
 export function EmailFunction(props) {
 
@@ -14,9 +15,10 @@ export function EmailFunction(props) {
 
 
     function checkInput(value) {
-        setReason(switchFunctions(props.curr.funcName, props.curr.properties, value))
+        let res=switchFunctions(props.curr.funcName, props.curr.properties, value)
 
-        if (wrongReason !== "OK") {
+        if (res !== "OK") {
+            setReason(res)
             setIsWrong(!isWrong)
         }
         else {
@@ -24,7 +26,6 @@ export function EmailFunction(props) {
             setEmail({ ...email, value: value })
         }
     }
-
     props.func(email)
 
     return (
@@ -32,6 +33,7 @@ export function EmailFunction(props) {
             <label className='emailLabel'> {props.curr.label}</label>
 
             <div className='emailInput'>
+            <MdStar color='red'></MdStar>
                 <input type="email" placeholder="example@example.com" required onBlur={(event) => checkInput(event.target.value)} />
             </div>
             {isWrong ? <span>{wrongReason}</span> : ""}

@@ -61,7 +61,7 @@ exports.fields =
          "name": "mail",
          "type": "input",
          "label": "E-mail",
-         "funcName:": "checkEmail",
+         "funcName": "checkEmail",
          "requierd": true,
          "properties": {
             "inputType": "email"
@@ -71,12 +71,12 @@ exports.fields =
          "name": "phoneNumber",
          "type": "input",
          "label": "Phone Number:",
-         "funcName": "checkPhone",
+         "funcName": "checknumOfDigitsAndAllDigits",
          "requierd": true,
          "properties": {
             "inputType": "tel",
             "pattern": "[0-9]*8",
-            "numDig":"8"
+            "numDig":8
          }
       },
       {
@@ -157,8 +157,8 @@ exports.fields =
          "requierd": false,
          "properties": {
             "inputType": "number",
-            "min": "3",
-            "max": "5"
+            "min": 3,
+            "max": 5
          }
       },
 
@@ -170,8 +170,8 @@ exports.fields =
          "requierd": false,
          "properties": {
             "inputType": "number",
-            "min": "3",
-            "max": "5"
+            "min": 3,
+            "max": 5
          }
       },
       {
@@ -182,8 +182,8 @@ exports.fields =
          "requierd": false,
          "properties": {
             "inputType": "text",
-            "min": "0",
-            "max": "100"
+            "min": 0,
+            "max": 100
          }
       },
       {
@@ -193,7 +193,9 @@ exports.fields =
          "funcName": "checkRange",
          "requierd": false,
          "properties": {
-            "inputType": "text"
+            "inputType": "text",
+            "min": 0,
+            "max": 100
          }
       },
       {
@@ -204,7 +206,7 @@ exports.fields =
          "requierd": false,
          "properties": {
             "inputType": "text",
-            "numDig":"3"
+            "numDig":3
          }
       },
 
