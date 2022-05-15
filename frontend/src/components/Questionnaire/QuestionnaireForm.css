@@ -1,7 +1,7 @@
 
 .question_form{
     
-    background-color:#F4F4F9;
+    background-color:#fff9f5ac;
     height:100%;
 padding-bottom:30px;
     
@@ -15,8 +15,8 @@ padding-bottom:30px;
 
 .question_form_top{
     
-    background-color: white;
-    border-top:8px solid #f18bbd ;
+    background-color:white;
+    border-top:8px solid #484849 ;
     border-radius: 8px;
     padding:30px 25px;
     text-transform: capitalize;
@@ -68,7 +68,7 @@ padding-bottom:30px;
 
 .add_question{
   
-    background-color: white;
+    background-color:white;
     
     border-radius: 8px;
     padding:25px 22px;
@@ -122,7 +122,7 @@ padding-bottom:30px;
 
    /* line-height: 40px; */
    width:8%;
-   border:1px solid #f18bbd ;
+   border:1px #484849 ;
    outline:none;
    color:black;
    height:40px;
@@ -133,9 +133,9 @@ padding-bottom:30px;
 
 
 .question:focus{
-    border-bottom:1px solid #f18bbd ;
+    border-bottom:1px #484849 ;
   
-    background-color:#F4F4F9;
+    background-color:#fff9f5ac;
 }
 
 
@@ -199,14 +199,20 @@ background:transparent;
 }
 
 .text_input:focus{
-    border-bottom:1.5px solid #f18bbd ;
+    border-bottom:1.5px #484849 ;
 
 }
 
 .save-btn{
-    background-color:#f18bbd !important;
-    color:black !important;
-   
+     
+        background-color: #FFDAC4 !important;
+        border: none;
+        padding: 5px 8px 5px 8px;
+        margin: 5px;
+        border-radius: 5px;
+        color: #202124 !important;
+    
+    
 }
 
 
@@ -248,7 +254,8 @@ background:transparent;
 }
 
 .add_border{
-    border-left:6px solid #f18bbd ;
+    border-left:6px solid #FFDAC4 ;
+    
 }
 
 .save_form{
