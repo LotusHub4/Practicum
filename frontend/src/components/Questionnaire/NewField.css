@@ -1,5 +1,5 @@
 .template_section{
-    background-color:#F4F4F9;
+    background-color:white;
     
 padding-top:7px;
 padding-bottom:40px;
@@ -47,10 +47,9 @@ padding-bottom:40px;
     height:120px;
     width:140px;
     border-radius:2px;
-    border:0.5px solid #FFFDF7;
     cursor: pointer;
 }
 
 .card_image:hover{
-    border:1px solid #6E2594;
+    border:1px solid #484849;
 }

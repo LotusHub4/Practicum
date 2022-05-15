@@ -27,7 +27,7 @@
 .header_search{
     display:flex;
     flex-direction:row;
-    background-color:#F4F4F9;
+    background-color:none;
     border-radius:10px;
     color:-internal-light-dark(black, white);
     width:700px;
@@ -37,7 +37,7 @@
 .header_search > input{
     border:none;
     height:40px;
-    background:transparent;
+    background-color:none;
     outline:none;
     width:100%;
     
