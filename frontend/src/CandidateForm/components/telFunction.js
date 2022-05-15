@@ -15,14 +15,15 @@ export function TelFunction(props) {
     });
 
     function checkTel(value) {
-        setReason(switchFunctions(props.curr.funcName, props.curr.properties, value))
+        let res=switchFunctions(props.curr.funcName, props.curr.properties, value)
 
-        if (wrongReason !== "OK") {
+        if (res !== "OK") {
+            setReason(res)
             setIsWrong(!isWrong)
         }
         else {
             setIsWrong(false)
-            setPhone({ ...phone, value: value })
+            setPhone({ ...phone, value: "05"+value })
         }
     }
     props.func(phone)
