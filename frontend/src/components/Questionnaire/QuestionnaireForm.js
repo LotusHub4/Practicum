@@ -182,12 +182,6 @@ export default function QuestionnaireForm() {
     return result;
   };
 
-  // function showAsQuestion(i) {
-  //   let qs = [...questions];
-  //   qs[i].open = false;
-  //   setQuestions(qs);
-  // }
-
   function addOption(i) {
     var optionsOfQuestion = [...questions];
     if (optionsOfQuestion[i].options.length < 5) {
@@ -215,13 +209,6 @@ export default function QuestionnaireForm() {
 
     setQuestions(Questions)
   }
-  // function addAnswer(i) {
-  //   var answerOfQuestion = [...questions];
-
-  //   answerOfQuestion[i].answer = !answerOfQuestion[i].answer;
-
-  //   setQuestions(answerOfQuestion)
-  // }
 
   function doneAnswer(i) {
     var answerOfQuestion = [...questions];
@@ -270,6 +257,7 @@ export default function QuestionnaireForm() {
   }
 
   function questionsUI() {
+    console.log("quesss " , questions);
     return questions.map((ques, i) => (
       <Draggable key={i} draggableId={i + 'id'} index={i}>
         {(provided, snapshot) => (
@@ -334,10 +322,10 @@ export default function QuestionnaireForm() {
                       <div >
                         <div className="add_question_top">
                           <input type="text" className="question" placeholder="Question" value={ques.questionText} onChange={(e) => { handleQuestionValue(e.target.value, i) }}></input>
-                          <Select className="select" style={{ color: "#5f6368", fontSize: "13px" }}>
+                          <Select className="select" style={{ color: "#5f6368", fontSize: "13px" }} defaultValue={ques.questionType}>
 
 
-                            <option selected disabled value={select}>{questionType}</option>
+                            <option selected value={ques.questionType}>{ques.questionType}</option>
 
                             <MenuItem value="10" id="text" onClick={() => { addQuestionType(i, "text", "text") }}> <ShortTextIcon style={{ marginRight: "10px" }} />  Short Pharaghraph</MenuItem>
                             <MenuItem id="text" value="Text" onClick={() => { addQuestionType(i, "paragraph", "paragraph") }}> <SubjectIcon style={{ marginRight: "10px" }} />  Paragraph</MenuItem>

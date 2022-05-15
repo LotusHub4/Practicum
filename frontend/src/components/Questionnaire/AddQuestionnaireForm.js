@@ -326,10 +326,10 @@ export default function AddQuestionnaireForm() {
                       <div >
                         <div className="add_question_top">
                           <input type="text" className="question" placeholder="Question" value={ques.questionText} onChange={(e) => { handleQuestionValue(e.target.value, i) }}></input>
-                          <Select className="select" style={{ color: "#5f6368", fontSize: "13px" }}>
+                          <Select className="select" style={{ color: "#5f6368", fontSize: "13px" }} defaultValue={ques.questionType}>
 
 
-                            <option selected disabled value={select}>{questionType}</option>
+                            <option selected disabled value={ques.questionType}>{ques.questionType}</option>
 
                             <MenuItem value="10" id="text" onClick={() => { addQuestionType(i, "text", "text") }}> <ShortTextIcon style={{ marginRight: "10px" }} />  Short Pharaghraph</MenuItem>
                             <MenuItem id="text" value="Text" onClick={() => { addQuestionType(i, "paragraph", "paragraph") }}> <SubjectIcon style={{ marginRight: "10px" }} />  Paragraph</MenuItem>
