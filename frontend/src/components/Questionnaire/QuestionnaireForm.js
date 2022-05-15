@@ -35,20 +35,19 @@ import { actionTypes } from './reducer'
 import { useParams } from "react-router";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import CloseIcon from '@material-ui/icons/Close';
 
 export default function QuestionnaireForm() {
   const history = useNavigate();
   const [{ }, dispatch] = useStateValue();
   const [questions, setQuestions] = useState([]);
-  const [documentName, setDocName] = useState("untitled Document");
 
-  const [documentDescription, setDocDesc] = useState("Add Description");
-  const [select, setSelect] = useState('Choose Type ')
-  const [editId, seteditId] = useState();
+  // const [select, setSelect] = useState('Choose Type ')
+
+  const [option, setOption] = useState("");
 
   const [questionType, setType] = useState("radio");
-  const [questionRequired, setRequired] = useState("true");
+  // const [questionRequired, setRequired] = useState("true");
   let { id } = useParams();
 
   useEffect(() => {
@@ -63,7 +62,7 @@ export default function QuestionnaireForm() {
       var request = await axios.get(`http://localhost:5555/questionnaire/data/${id}`);
       var question_data = request.data.questions;
       var doc_name = question_data.file
-      seteditId(question_data[0].id);
+  
       setType(question_data[0].questionType)
       setQuestions(question_data)
    
@@ -116,7 +115,21 @@ export default function QuestionnaireForm() {
   }
 
   function addQuestionType(i, type, realType) {
+ 
     let qs = [...questions];
+    if(realType === "checkbox"){
+      setOption("option");
+ 
+    }
+    else{
+      setOption("");
+      for (let j = 0; j< qs[i].options.length; j++) {
+
+        removeOption(i,j)
+        
+      }
+      
+    }
     qs[i].questionType = realType;
     qs[i].type = type;
     setQuestions(qs);
@@ -149,8 +162,13 @@ export default function QuestionnaireForm() {
     setQuestions(qs)
   }
 
-  function handleOptionValue(text, i, j) {
+  function handleOptionValue(text, i, j,questionType) {
     var optionsOfQuestion = [...questions];
+    console.log("checkkkkk",questionType);
+    if(questionType === "checkbox"){
+      setOption("option");
+ 
+    }
     optionsOfQuestion[i].options[j].option = text;
     //newMembersEmail[i]= email;
     setQuestions(optionsOfQuestion);
@@ -182,8 +200,12 @@ export default function QuestionnaireForm() {
     return result;
   };
 
-  function addOption(i) {
+  function addOption(i,realType) {
     var optionsOfQuestion = [...questions];
+    if(realType === "checkbox"){
+      setOption("option");
+ 
+    }
     if (optionsOfQuestion[i].options.length < 5) {
       optionsOfQuestion[i].options.push({ option: "" })
     } else {
@@ -230,7 +252,8 @@ export default function QuestionnaireForm() {
   function removeOption(i, j) {
     var optionsOfQuestion = [...questions];
     if (optionsOfQuestion[i].options.length > 1) {
-      optionsOfQuestion[i].options.splice(j, 1);
+      optionsOfQuestion[i].options[j].option="";
+      // optionsOfQuestion[i].options.splice(j, 1);
       setQuestions(optionsOfQuestion)
     }
   }
@@ -322,10 +345,10 @@ export default function QuestionnaireForm() {
                       <div >
                         <div className="add_question_top">
                           <input type="text" className="question" placeholder="Question" value={ques.questionText} onChange={(e) => { handleQuestionValue(e.target.value, i) }}></input>
-                          <Select className="select" style={{ color: "#5f6368", fontSize: "13px" }} defaultValue={ques.questionType}>
+                          <Select className="select" style={{ color: "#5f6368", fontSize: "13px" }} defaultValue={'DEFAULT'}>
 
 
-                            <option selected value={ques.questionType}>{ques.questionType}</option>
+                            <option selected value={'DEFAULT'}>{ques.type}</option>
 
                             <MenuItem value="10" id="text" onClick={() => { addQuestionType(i, "text", "text") }}> <ShortTextIcon style={{ marginRight: "10px" }} />  Short Pharaghraph</MenuItem>
                             <MenuItem id="text" value="Text" onClick={() => { addQuestionType(i, "paragraph", "paragraph") }}> <SubjectIcon style={{ marginRight: "10px" }} />  Paragraph</MenuItem>
@@ -354,17 +377,35 @@ export default function QuestionnaireForm() {
 
 
                         {ques.options.map((op, j) => (
-                          <div className="add_question_body" key={j}>
-                            {
-                              (ques.questionType != "text") ?
-                                <input type={ques.questionType} style={{ marginRight: "10px" }} /> :
-                                <ShortTextIcon style={{ marginRight: "10px" }} />
+                          // <div className="add_question_body" key={j}>
+                          //   {
+                          //     (ques.questionType != "text") ?
+                          //       <input type={ques.questionType} style={{ marginRight: "10px" }} /> :
+                          //       <ShortTextIcon style={{ marginRight: "10px" }} />
 
-                            }
-                            <div >
-                              <input type="text" className="text_input" placeholder="option" value={op.option} onChange={(e) => { handleOptionValue(e.target.value, i, j) }}></input>
-                            </div>
-                          </div>
+                          //   }
+                          //   <div >
+                          //     <input type="text" className="text_input" placeholder="option" value={op.option} onChange={(e) => { handleOptionValue(e.target.value, i, j) }}></input>
+                          //   </div>
+                          // </div>
+                          <div className="add_question_body" key={j}>
+                          {
+                            (ques.questionType === "text" || ques.questionType === "number" ||ques.questionType === "file" ||ques.questionType === "date" ||ques.questionType === "time" ) ?
+                              <input type={ques.questionType} style={{ marginRight: "10px" }} /> : 
+
+                    <div>
+                      <div className='add-option-row'>
+                            {/* <input type={ques.questionType} style={{ marginRight: "10px" }} /> */}
+                            <input type="text" className="text_input" placeholder= {option} value={ques.options[j].option} onChange={(e) => { handleOptionValue(e.target.value, i, j,ques.questionType) }}></input>
+                      
+
+                          <IconButton aria-label="delete" onClick={()=>{removeOption(i, j)}}>
+                                  <CloseIcon />
+                                  </IconButton>
+                        </div>
+                    </div>
+}
+                        </div>
                         ))}
 
 
@@ -380,7 +421,7 @@ export default function QuestionnaireForm() {
                             } label={
                               <div>
                                 <input type="text" className="text_input" style={{ fontSize: "13px", width: "60px" }} placeholder="Add other"></input>
-                                <Button size="small" onClick={() => { addOption(i) }} style={{ textTransform: 'none', color: "#f18bbd ", fontSize: "13px", fontWeight: "600" }}>Add Option</Button>
+                                <Button size="small" onClick={() => { addOption(i,ques.questionType) }} style={{ textTransform: 'none', color: "#f18bbd ", fontSize: "13px", fontWeight: "600" }}>Add Option</Button>
                               </div>
                             } />
                           </div>

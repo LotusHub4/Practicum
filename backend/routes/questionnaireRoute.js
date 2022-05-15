@@ -33,7 +33,7 @@ router.get("/data/:doc_id", async (req, res) => {
   
     for (const [key, value] of Object.entries(questionnaireData)) {
 
-        data = {questions:[{date:value.d,file:value.file,id:value.id,questionText:value.nameField,questionType:value.typeField,type:value.typeField,options:await QuestionnaireRepository.getOptionById(value.id),open:true,required:value.required}]};
+        data = {questions:[{date:value.d,file:value.file,id:value.id,questionText:value.nameField,questionType:value.typeField,type:value.type,options:await QuestionnaireRepository.getOptionById(value.id),open:true,required:value.required}]};
         arr.questions.push(data.questions[0]);
     }
         res.send(arr);
