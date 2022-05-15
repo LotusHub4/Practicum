@@ -24,7 +24,7 @@ router.get("/fieldFromDB", async (req, res) => {
                         let field = {}
                         let name = helpFunctions.restoreName(rows[i].nameField);
 
-                        switch (rows[i].typeField) {
+                        switch (rows[i].type) {
                             // let x ="phone number"
                             // for (let i = 0; i < 1; i++) {
                             //     switch (x) {

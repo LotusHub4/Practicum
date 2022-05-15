@@ -35,6 +35,7 @@ import { actionTypes } from './reducer'
 import { useParams } from "react-router";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import CloseIcon from '@material-ui/icons/Close';
 
 
 export default function AddQuestionnaireForm() {
@@ -46,14 +47,14 @@ export default function AddQuestionnaireForm() {
 
   const [documentDescription, setDocDesc] = useState("Add Description");
   const [select, setSelect] = useState('Choose Type ')
-  const [editId, seteditId] = useState();
+  const [option, setOption] = useState("");
 
-  const [questionType, setType] = useState("radio");
+  const [questionType, setType] = useState("text");
   const [questionRequired, setRequired] = useState("true");
   let { id } = useParams();
 
   useEffect(() => {
-    var newQuestion = { questionText: "Question", answer: false, answerKey: "", questionType: "radio", options: [{ option: "" }], open: true, required: false }
+    var newQuestion = { questionText: "Question", answer: false, answerKey: "", questionType: "text", options: [{ option: "" }], open: true, required: false }
 
     setQuestions([...questions, newQuestion])
 
@@ -111,11 +112,25 @@ export default function AddQuestionnaireForm() {
   function addMoreQuestionField() {
     expandCloseAll(); //I AM GOD
 
-    setQuestions(questions => [...questions, { questionText: "Question", questionType: "radio", type: "text", options: [{ option: "" }], open: true, required: false }]);
+    setQuestions(questions => [...questions, { questionText: "Question", questionType: "text", type: "text", options: [{ option: "" }], open: true, required: false }]);
   }
 
   function addQuestionType(i, type, realType) {
+
     let qs = [...questions];
+    if(realType === "checkbox"){
+      setOption("option");
+ 
+    }
+    else{
+      setOption("");
+      for (let j = 0; j< qs[i].options.length; j++) {
+
+        removeOption(i,j)
+        
+      }
+      
+    }
     qs[i].questionType = realType;
     qs[i].type = type;
     setQuestions(qs);
@@ -332,23 +347,23 @@ export default function AddQuestionnaireForm() {
                             <option selected disabled value={ques.questionType}>{ques.questionType}</option>
 
                             <MenuItem value="10" id="text" onClick={() => { addQuestionType(i, "text", "text") }}> <ShortTextIcon style={{ marginRight: "10px" }} />  Short Pharaghraph</MenuItem>
-                            <MenuItem id="text" value="Text" onClick={() => { addQuestionType(i, "paragraph", "paragraph") }}> <SubjectIcon style={{ marginRight: "10px" }} />  Paragraph</MenuItem>
-                            <MenuItem value="radio" id="radio" onClick={() => { addQuestionType(i, "multiCheckbox", "checkbox") }}><RadioButtonCheckedIcon checked style={{ marginRight: "10px", color: "#70757a" }} /> Multiple Choice</MenuItem>
+                            <MenuItem id="text" value="Text" onClick={() => { addQuestionType(i, "paragraph", "text") }}> <SubjectIcon style={{ marginRight: "10px" }} />  Paragraph</MenuItem>
+                            <MenuItem value="checkbox" id="checkbox" onClick={() => { addQuestionType(i, "multiCheckbox", "checkbox") }}><RadioButtonCheckedIcon checked style={{ marginRight: "10px", color: "#70757a" }} /> Multiple Choice</MenuItem>
                             <MenuItem id="checkbox" value="Checkbox" onClick={() => { addQuestionType(i, "checkbox", "checkbox") }}><CheckBoxIcon style={{ marginRight: "10px", color: "#70757a" }} checked /> Checkboxes</MenuItem>
                             <MenuItem value="50" onClick={() => { addQuestionType(i, "select", "checkbox") }}> <ArrowDropDownCircleIcon style={{ marginRight: "10px" }} /> Drop-down</MenuItem>
                             <MenuItem value="60" onClick={() => { addQuestionType(i, "uploadFile", "file") }}> <BackupIcon style={{ marginRight: "10px" }} /> File Upload</MenuItem>
                             <MenuItem value="70" onClick={() => { addQuestionType(i, "uploadImage", "file") }}> <BackupIcon style={{ marginRight: "10px" }} /> File Image</MenuItem>
-                            <MenuItem value="80" id="text" onClick={() => { addQuestionType(i, "email", "email") }}> <EmailIcon style={{ marginRight: "10px" }} /> Email</MenuItem>
-                            <MenuItem value="90" id="text" onClick={() => { addQuestionType(i, "password", "password") }}> <MdOutlinePassword style={{ marginRight: "10px" }} /> Password</MenuItem>
+                            <MenuItem value="80" id="text" onClick={() => { addQuestionType(i, "email", "text") }}> <EmailIcon style={{ marginRight: "10px" }} /> Email</MenuItem>
+                            <MenuItem value="90" id="text" onClick={() => { addQuestionType(i, "password", "text") }}> <MdOutlinePassword style={{ marginRight: "10px" }} /> Password</MenuItem>
                             <MenuItem value="100" onClick={() => { addQuestionType(i, "date", "date") }}> <EventIcon style={{ marginRight: "10px" }} /> Date</MenuItem>
                             <MenuItem value="110" onClick={() => { addQuestionType(i, "time", "time") }}> <ScheduleIcon style={{ marginRight: "10px" }} /> Time</MenuItem>
-                            <MenuItem id="text" value="2" onClick={() => { addQuestionType(i, "phoneNumber", "phoneNumber") }}> <AiFillPhone style={{ marginRight: "10px" }} />  Phone Number</MenuItem>
-                            <MenuItem id="text" value="4" onClick={() => { addQuestionType(i, "postalCode", "postalCode") }}> <VscFileCode style={{ marginRight: "10px" }} />  Postal Code</MenuItem>
+                            <MenuItem id="text" value="2" onClick={() => { addQuestionType(i, "phoneNumber", "number") }}> <AiFillPhone style={{ marginRight: "10px" }} />  Phone Number</MenuItem>
+                            <MenuItem id="text" value="4" onClick={() => { addQuestionType(i, "postalCode", "number") }}> <VscFileCode style={{ marginRight: "10px" }} />  Postal Code</MenuItem>
                             <MenuItem id="text" value="6" onClick={() => { addQuestionType(i, "grade", "number") }}> <MdSportsScore style={{ marginRight: "10px" }} />  Grade</MenuItem>
                             <MenuItem id="text" value="8" onClick={() => { addQuestionType(i, "POBox", "number") }}> <VscInbox style={{ marginRight: "10px" }} />  Po Box</MenuItem>
                             {/* <MenuItem id="text" value="12" onClick={() => { addQuestionType(i, "units") }}> <VscSymbolNumeric style={{ marginRight: "10px" }} />  Units</MenuItem> */}
                             <MenuItem id="text" value="14" onClick={() => { addQuestionType(i, "age", "number") }}> <MdSchool style={{ marginRight: "10px" }} />  Age</MenuItem>
-                            <MenuItem id="text" value="16" onClick={() => { addQuestionType(i, "id", "id") }}> <HiIdentification style={{ marginRight: "10px" }} />  Id</MenuItem>
+                            <MenuItem id="text" value="16" onClick={() => { addQuestionType(i, "id", "number") }}> <HiIdentification style={{ marginRight: "10px" }} />  Id</MenuItem>
                             <MenuItem id="text" value="18" onClick={() => { addQuestionType(i, "other", "text") }}> <SubjectIcon style={{ marginRight: "10px" }} />  Other</MenuItem>
                           </Select>
 
@@ -360,14 +375,21 @@ export default function AddQuestionnaireForm() {
                         {ques.options.map((op, j) => (
                           <div className="add_question_body" key={j}>
                             {
-                              (ques.questionType != "text") ?
-                                <input type={ques.questionType} style={{ marginRight: "10px" }} /> :
-                                <ShortTextIcon style={{ marginRight: "10px" }} />
+                              (ques.questionType === "text" || ques.questionType === "number" ||ques.questionType === "file" ||ques.questionType === "date" ||ques.questionType === "time" ) ?
+                                <input type={ques.questionType} style={{ marginRight: "10px" }} /> : 
 
-                            }
-                            <div >
-                              <input type="text" className="text_input" placeholder="option" value={ques.options[j].option} onChange={(e) => { handleOptionValue(e.target.value, i, j) }}></input>
-                            </div>
+                      <div>
+                        <div className='add-option-row'>
+                              {/* <input type={ques.questionType} style={{ marginRight: "10px" }} /> */}
+                              <input type="text" className="text_input" placeholder= {option} value={ques.options[j].option} onChange={(e) => { handleOptionValue(e.target.value, i, j) }}></input>
+                        
+
+                            <IconButton aria-label="delete" onClick={()=>{removeOption(i, j)}}>
+                                    <CloseIcon />
+                                    </IconButton>
+                          </div>
+                      </div>
+  }
                           </div>
                         ))}
 
@@ -383,7 +405,7 @@ export default function AddQuestionnaireForm() {
 
                             } label={
                               <div>
-                                <input type="text" className="text_input" style={{ fontSize: "13px", width: "60px" }} placeholder="Add other"></input>
+                                {/* <input type="text" className="text_input" style={{ fontSize: "13px", width: "60px" }} placeholder="Add other"></input> */}
                                 <Button size="small" onClick={() => { addOption(i) }} style={{ textTransform: 'none', color: "#f18bbd ", fontSize: "13px", fontWeight: "600" }}>Add Option</Button>
                               </div>
                             } />

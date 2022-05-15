@@ -1,6 +1,6 @@
 export const initialState = {
-    questions:[{questionText: "Question", questionType:"radio",type:"text", options : [{option: ""}], open: true, required:false}],
-    questionType:"radio",
+    questions:[{questionText: "Question", questionType:"text",type:"text", options : [{option: ""}], open: true, required:false}],
+    questionType:"text",
 }
 
 export const actionTypes = {

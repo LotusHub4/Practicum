@@ -184,7 +184,7 @@ function updateFieldById(req) {
         let pool = await connect.connectionfun();
         for (let i = 0; i < req.length; i++) {
             pool.query(`UPDATE questionnairfields
-            SET nameField = '${req[i].questionText}', typeField = '${req[i].type}',required = ${req[i].required}
+            SET nameField = '${req[i].questionText}', typeField='${req[i].questionType}' ,type = '${req[i].type}',required = ${req[i].required}
             WHERE id=${req[i].id};`, (err, rows) => {
                 if (!err) {
                     resolve(rows);
@@ -245,3 +245,5 @@ function updateOptionById(req,id) {
     })
 }
 exports.updateOptionById = updateOptionById;
+
+
