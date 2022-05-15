@@ -17,9 +17,10 @@ export function NumberFunction(props) {
         value: ""
     });
     function checkInput(value){
-    setReason(switchFunctions(props.curr.funcName, props.curr.properties, value))
+    let res=switchFunctions(props.curr.funcName, props.curr.properties, value)
 
-    if (wrongReason !== "OK") {
+    if (res !== "OK") {
+        setReason(res)
         setIsWrong(!isWrong)
     }
     else {

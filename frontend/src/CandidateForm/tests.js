@@ -1,5 +1,7 @@
 export function checkRange(min, max, number) {
-    let res = number <= max && number >= min;
+    console.log(number,min,max);
+    let res = (number <= max) && (number >= min);
+    console.log(res);
     if (!res) {
         return "the number must be between " + min + " and " + max;
     }
@@ -50,17 +52,14 @@ export function isAllLetters(str) {
 }
 
 export function checkEmail(str) {
-    let flag1 = false;
     for (const char of str) {
         let index = str.indexOf(char)
         if (char === '@' && index !== 0 && str[index + 1] !== '.')
-            flag1 = true;
-        if (flag1) {
-            if (str.endsWith('.com') || str.endsWith('.co.il'))
-                return "OK";
+        {
+            return "OK";
         }
     }
-    return "invalid e=mail adress";
+    return "invalid email adress";
 }
 
 export function checkImgEnds(str) {
