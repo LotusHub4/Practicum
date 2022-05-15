@@ -4,7 +4,7 @@ const connect = require('../DB/dbconfig');
 function getAllFields() {
     return new Promise(async (resolve, reject) => {
         let pool = await connect.connectionfun()
-        const fields = pool.query(`SELECT file ,id,nameField,typeField,createDate,required,type , COUNT(*) FROM questionnairfields GROUP BY file HAVING COUNT(*) > 1`, (err, rows) => {
+        const fields = pool.query(`SELECT file ,id,nameField,typeField,createDate,required,type  FROM questionnairfields `, (err, rows) => {
             if (!err) {
                 resolve(rows)
 
@@ -21,6 +21,7 @@ function getAllFields() {
 }
 
 exports.getAllFields = getAllFields;
+//const fields = pool.query(`SELECT file ,id,nameField,typeField,createDate,required,type , COUNT(*) FROM questionnairfields GROUP BY file HAVING COUNT(*) > 1`, (err, rows) => {
 
 
 function getOptionById(id) {
@@ -52,7 +53,7 @@ function getFieldById(id) {
         let pool = await connect.connectionfun();
 
         pool.query(`SELECT *
-           FROM questionnairfields where file='${id}' ;`, (err, rows) => {
+           FROM questionnairfields where file='${id}';`, (err, rows) => {
             if (!err) {
                 resolve(rows);
 
