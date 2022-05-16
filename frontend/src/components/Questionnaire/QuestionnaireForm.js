@@ -420,8 +420,8 @@ export default function QuestionnaireForm() {
 
                             } label={
                               <div>
-                                <input type="text" className="text_input" style={{ fontSize: "13px", width: "60px" }} placeholder="Add other"></input>
-                                <Button size="small" onClick={() => { addOption(i,ques.questionType) }} style={{ textTransform: 'none', color: "#f18bbd ", fontSize: "13px", fontWeight: "600" }}>Add Option</Button>
+                                
+                                <Button size="small" onClick={() => { addOption(i,ques.questionType) }} style={{ textTransform: 'none', color: "#FFDAC4", fontSize: "13px", fontWeight: "600" }}>Add Option</Button>
                               </div>
                             } />
                           </div>
