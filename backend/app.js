@@ -11,6 +11,7 @@ const questionnaireRoutes = require('./routes/questionnaireRoute');
 app.use('/questionnaire', questionnaireRoutes);
 app.use('/candidateForm', require('./routes/candidateRouts'));
 
+app.use('/users', require('./routes/route'));
 
 app.use('/candidates', require('../backend/routes/reportRoute'));
 
