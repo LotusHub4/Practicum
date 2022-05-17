@@ -18,9 +18,8 @@ import EventIcon from '@material-ui/icons/Event';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import { BsTrash } from "react-icons/bs"
 import { IconButton } from '@material-ui/core';
-import FilterNoneIcon from '@material-ui/icons/FilterNone';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import { VscFileCode, VscInbox, VscSymbolNumeric } from "react-icons/vsc";
+import { VscFileCode, VscInbox } from "react-icons/vsc";
 import { BsFileText } from "react-icons/bs"
 import { Typography } from '@material-ui/core';
 import Accordion from '@material-ui/core/Accordion';
@@ -40,18 +39,15 @@ export default function QuestionnaireForm() {
   const history = useNavigate();
   const [{ }, dispatch] = useStateValue();
   const [questions, setQuestions] = useState([]);
-
   // const [select, setSelect] = useState('Choose Type ')
-
   const [option, setOption] = useState("");
-
+  const [file, setFile] = useState("");
   const [questionType, setType] = useState("radio");
   // const [questionRequired, setRequired] = useState("true");
   let { id } = useParams();
 
   useEffect(() => {
     var newQuestion = { questionText: "Question", answer: false, answerKey: "", questionType: "radio", options: [{ option: "" }], open: true, required: false }
-
     setQuestions([...questions, newQuestion])
 
   }, [])
@@ -60,11 +56,10 @@ export default function QuestionnaireForm() {
     async function data_adding() {
       var request = await axios.get(`http://localhost:5555/questionnaire/data/${id}`);
       var question_data = request.data.questions;
-      var doc_name = question_data.file
 
+      setFile(question_data[0].file)
       setType(question_data[0].questionType)
       setQuestions(question_data)
-
 
       dispatch({
         type: actionTypes.SET_QUESTIONS,
@@ -78,7 +73,6 @@ export default function QuestionnaireForm() {
 
   function changeType(e) {
     setType(e.target.id)
-
   }
 
 
@@ -101,16 +95,13 @@ export default function QuestionnaireForm() {
       console.log(err);
     })
     history("/questionnaire");
-
   }
-
-
 
 
   function addMoreQuestionField() {
     expandCloseAll(); //I AM GOD
 
-    setQuestions(questions => [...questions, { questionText: "Question", questionType: "radio", type: "text", options: [{ option: "" }], open: true, required: false }]);
+    setQuestions(questions => [...questions, { questionText: "Question", questionType: "radio", type: "text", options: [{ option: "" }], file:file, open: true, required: false }]);
   }
 
   function addQuestionType(i, type, realType) {
@@ -118,7 +109,6 @@ export default function QuestionnaireForm() {
     let qs = [...questions];
     if (realType === "checkbox") {
       setOption("option");
-
     }
     else {
       setOption("");
@@ -136,14 +126,13 @@ export default function QuestionnaireForm() {
   }
 
 
-  function copyQuestion(i) {
-    expandCloseAll()
-    let qs = [...questions]
-    var newQuestion = qs[i]
+  // function copyQuestion(i) {
+  //   expandCloseAll()
+  //   let qs = [...questions]
+  //   var newQuestion = qs[i]
 
-    setQuestions([...questions, newQuestion])
-
-  }
+  //   setQuestions([...questions, newQuestion])
+  // }
 
   function deleteQuestion(i, id) {
 
@@ -223,9 +212,7 @@ export default function QuestionnaireForm() {
 
   function setOptionPoints(points, qno) {
     var Questions = [...questions];
-
     Questions[qno].points = points;
-
 
     setQuestions(Questions)
   }
@@ -326,12 +313,7 @@ export default function QuestionnaireForm() {
                                 </Typography>
                               } />
                             </div>
-
-
                           </div>
-
-
-
                         ))}
                       </div>
                     ) : ""}
@@ -343,7 +325,6 @@ export default function QuestionnaireForm() {
                         <div className="add_question_top">
                           <input type="text" className="question" placeholder="Question" value={ques.questionText} onChange={(e) => { handleQuestionValue(e.target.value, i) }}></input>
                           <Select className="select" style={{ color: "#5f6368", fontSize: "13px" }} defaultValue={'DEFAULT'}>
-
 
                             <option selected value={'DEFAULT'}>{ques.type}</option>
 
@@ -413,7 +394,7 @@ export default function QuestionnaireForm() {
 
                               (ques.questionType === "checkbox") ?
                                 <div>
-                                  <input type={ques.questionType} color="primary" inputProps={{ 'aria-label': 'secondary checkbox' }} style={{ marginLeft: "10px", marginRight: "10px" }} disabled />
+                                  {/* <input type={ques.questionType} color="primary" inputProps={{ 'aria-label': 'secondary checkbox' }} style={{ marginLeft: "10px", marginRight: "10px" }} disabled /> */}
                                   <div>
                                     <Button size="small" onClick={() => { addOption(i) }} style={{ textTransform: 'none', color: "#FFDAC4 ", fontSize: "13px", fontWeight: "600" }}>Add Option</Button>
                                   </div>
@@ -448,12 +429,7 @@ export default function QuestionnaireForm() {
                           <div className="add_question_top">
                             <input type="text" className="question " placeholder="Question" value={ques.questionText} onChange={(e) => { handleQuestionValue(e.target.value, i) }} disabled />
                             <input type="number" className="points" min="0" step="1" placeholder="0" onChange={(e) => { setOptionPoints(e.target.value, i) }} />
-
-
                           </div>
-
-
-
 
                           {ques.options.map((op, j) => (
                             <div className="add_question_body" key={j} style={{ marginLeft: "8px", marginBottom: "10px", marginTop: "5px" }}>
@@ -488,28 +464,17 @@ export default function QuestionnaireForm() {
 
 
                           <div className="add_question_body">
-
-
                             <Button size="small" style={{ textTransform: 'none', color: "#4285f4", fontSize: "13px", fontWeight: "600" }}> <BsFileText style={{ fontSize: "20px", marginRight: "8px" }} />Add Answer Feedback</Button>
-
-
                           </div>
 
-
-
-
                           <div className="add_question_bottom">
-
                             <Button variant="outlined" color="primary" style={{ textTransform: 'none', color: "#4285f4", fontSize: "12px", marginTop: "12px", fontWeight: "600" }} onClick={() => { doneAnswer(i) }}>
                               Done
                             </Button>
-
                           </div>
                         </div>
 
                       </AccordionDetails>
-
-
 
                     )}
                     {!ques.answer ? (<div className="question_edit">
@@ -530,15 +495,9 @@ export default function QuestionnaireForm() {
     )
   }
 
-
-
-
   return (
     <div >
-
       <div className="question_form">
-
-
         <br></br>
         <div className="section">
 
@@ -559,11 +518,8 @@ export default function QuestionnaireForm() {
 
           <div className="save_form">
             <Button variant="contained" color="primary" onClick={commitToDB} style={{ fontSize: "14px" }} className="save-btn">Update</Button>
-
           </div>
-
         </div>
-
       </div>
     </div>
   )
