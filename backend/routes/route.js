@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const myRepository = require('../Repository/Functions');
+const myRepository = require('./Functions');
 const app = express();
 
 
@@ -28,6 +28,28 @@ router.delete("/:Email", async (req, res) => {
     try {
         console.log("hhhhhhhhhhhhhh", req.params.Email);
         const x = await myRepository.deletAccountByEmail(req.params.Email);
+        res.send(x);
+    } catch (e) {
+        console.log(e);
+
+    }
+});
+
+
+
+router.get("/getRoles", async (req, res) => {
+    try {
+        const x = await myRepository.getTheRols();
+        res.send(x);
+    } catch (e) {
+        console.log(e);
+
+    }
+});
+
+router.get("/:Email", async (req, res) => {
+    try {
+        const x = await myRepository.GetInfoByEmail(req.params.Email);
         res.send(x);
     } catch (e) {
         console.log(e);
