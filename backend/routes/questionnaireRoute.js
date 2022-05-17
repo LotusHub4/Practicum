@@ -78,14 +78,17 @@ router.delete(`/delete_question/:doc_id`, async (req, res) => {
 //update data by id
 router.put(`/update_questions/`, async (req, res) => {
     var docs_data = req.body.questions;
+    await QuestionnaireRepository.updateFieldById( docs_data);
     for (let i = 0; i < docs_data.length; i++) {
         let data = docs_data[i].options;
 
-        await QuestionnaireRepository.updateOptionById(data,docs_data[i].id );
+        console.log("docs-data",docs_data[i].id);
+        if(docs_data[i].id !== undefined){
+            
+            await QuestionnaireRepository.updateOptionById(data,docs_data[i].id );
+        } 
     }
-    
-    await QuestionnaireRepository.updateFieldById( docs_data);
-
+ 
 })
 
 

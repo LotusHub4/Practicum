@@ -1,4 +1,4 @@
-const connectionhelper = require('./Connect')
+const connectionhelper = require('../DB/dbconfig')
 
 function AddNewUser(req) {
     return new Promise(async (resolve, reject) => {
@@ -53,50 +53,3 @@ function deletAccountByEmail(Email) {
     })
 }
 exports.deletAccountByEmail = deletAccountByEmail
-
-//------------------------------------------------------------
-function getTheRols() {
-    return new Promise(async (resolve, reject) => {
-        let y = await connectionhelper.connectionfun()
-        y.query(`SELECT RoleName FROM roles `, (err, rows) => {
-            if (!err) {
-                console.log('The data from users table are: \n', rows)
-                resolve(rows)
-                y.release()
-            } else {
-                console.log(err)
-                y.release()
-                reject(err);
-            }
-        })
-    })
-}
-exports.getTheRols = getTheRols
-
-//----------------------------------------------------------------------------------
-
-function GetInfoByEmail(Email) {
-
-    return new Promise(async (resolve, reject) => {
-        let y = await connectionhelper.connectionfun()
-        y.query(`SELECT * FROM users WHERE Email ='${Email}'`, (err, rows) => {
-            if (!err) {
-                console.log('The data from users table are: \n', rows)
-                y.release()
-            } else {
-                console.log(err)
-                y.release()
-                reject(err);
-            }
-            if (Object.keys(rows).length > 0) {
-                console.log(rows, "from line 25")
-                resolve(rows)
-            }
-            else {
-                console.log(rows, " from line 30")
-                resolve(false)
-            }
-        })
-    })
-}
-exports.GetInfoByEmail = GetInfoByEmail

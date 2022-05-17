@@ -36,26 +36,4 @@ router.delete("/:Email", async (req, res) => {
 });
 
 
-
-router.get("/getRoles", async (req, res) => {
-    try {
-        const x = await myRepository.getTheRols();
-        res.send(x);
-    } catch (e) {
-        console.log(e);
-
-    }
-});
-
-router.get("/:Email", async (req, res) => {
-    try {
-        const x = await myRepository.GetInfoByEmail(req.params.Email);
-        res.send(x);
-    } catch (e) {
-        console.log(e);
-
-    }
-});
-
-
 module.exports = router;
