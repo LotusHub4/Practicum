@@ -7,14 +7,15 @@ app.use(cors({ origin: "http://localhost:3000", optionsSuccessStatus: 200 }))
 
 
 
-const questionnaireRoutes = require('./routes/questionnaireRoute');
-app.use('/questionnaire', questionnaireRoutes);
-app.use('/candidateForm', require('./routes/candidateRouts'));
+// const questionnaireRoutes = require('./routes/questionnaireRoute');
+// app.use('/questionnaire', questionnaireRoutes);
+// app.use('/candidateForm', require('./routes/candidateRouts'));
 
-app.use('/users', require('./routes/route'));
+// app.use('/users', require('./routes/route'));
 
-app.use('/candidates', require('../backend/routes/reportRoute'));
+// app.use('/candidates', require('../backend/routes/reportRoute'));
 
+app.use('/candidateCard', require('./routes/CandidateCardsRoute'));
 
 
 //=========================

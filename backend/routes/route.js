@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const myRepository = require('./Functions');
+const myRepository = require('../Repository/Functions');
 const app = express();
 
 
