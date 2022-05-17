@@ -45,6 +45,8 @@ exports.getCandidateById = getCandidateById
 
 
 
+
+
 async function updateCandidate(id, userinfo) {
 
     try {
@@ -53,32 +55,18 @@ async function updateCandidate(id, userinfo) {
         console.log('!!!!!!!!!!!!!!!!!!!');
         console.log(userinfo);
         console.log(id);
+        console.log(userinfo, "gggggggggggggggggd");
 
-        // let keyValueArr = "";
-        // for (let i = 0; i < userinfo.length; i++) {
-        //     if (i != userinfo.length - 1) {
-        //         keyValueArr = "'${" + userinfo[i].name + "}'='${" + userinfo[i].value + "}',"
-        //     }
-        //     else {
-        //         keyValueArr = "'${" + userinfo[i].name + "}'='${" + userinfo[i].value + "}'"
-        //     }
 
-        // }
-        y.query(`UPDATE candidate SET '${keyValueArr}' WHERE id='${id}'`,
-            (err, rows) => {
-                if (!err) {
-                    console.log('The data from jopposts table are3: \n', rows);
-                } else {
-                    console.log(err), "2";
-                    y.release()
-                    reject(err);
-                }
-            })
-        // const result = y.query(`UPDATE  candidate
-        //                              SET '${keyValueArr}' 
-        //                             WHERE id='${id}'
-        // `);
-        // console.log(result.rowsAffected[0]);
+        for (let i = 0; i < userinfo.length; i++) {
+
+            let result = y.query(`UPDATE candidate SET ${userinfo[i].name}='${userinfo[i].value}' WHERE id='${id}'`)
+            console.log(userinfo[i].name, "nam");
+            console.log(userinfo[i].value, "val");
+            console.log(result.recordset, "resultttt");
+
+
+        }
         return true;
     }
     catch (err) {

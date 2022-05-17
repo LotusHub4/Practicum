@@ -35,11 +35,11 @@ export function Cardcandidate() {
         }
         console.log(candidate);
 
-        // axios.put('http://localhost:5555/candidateCard/updateCandidateInfo/1', { candidate })
-        //     .then(res => {
-        //         console.log(res.data);
-        //         alert('info has been saved');
-        //     })
+        axios.put('http://localhost:5555/candidateCard/updateCandidateInfo/1', candidate)
+            .then(res => {
+                console.log(res.data);
+                alert('info has been saved');
+            })
     }
 
 
