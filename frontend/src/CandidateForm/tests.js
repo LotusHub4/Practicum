@@ -70,3 +70,14 @@ export function checkImgEnds(str) {
     return true;
 
 }
+
+export function isValidDate(date) {
+    let year=date.substring(0, 4);
+    let yearNow=new Date().getFullYear()
+    if(yearNow-year<="17")
+    {
+        return "invalid date"
+    }
+    return "OK"
+
+}

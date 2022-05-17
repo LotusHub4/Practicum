@@ -13,7 +13,9 @@ import { checknumOfDigitsAndRange } from '../tests';
 import { isAllLetters } from '../tests';
 import { checkEmail } from '../tests';
 import { checkImgEnds } from '../tests';
+import {isValidDate} from '../tests';
 import { CheckboxFunction } from './checkboxFunction';
+import { FileFunction } from './fileFunction';
 
 
 
@@ -59,7 +61,8 @@ export function SwitchFields(props) {
 
                 case "email":
                     return <EmailFunction curr={props.curr} func={pullFieldData} />
-
+                case "file":
+                    return <FileFunction curr={props.curr} func={pullFieldData} />
                 case "tel":
                     return <TelFunction curr={props.curr} func={pullFieldData} />;
                 case "checkbox":
@@ -113,7 +116,8 @@ export function switchFunctions(funcName, properties, value) {
             return checkEmail(value);
         case "checkImgEnds":
             return checkImgEnds(value);
-
+        case "isValidDate":
+            return isValidDate(value)
         default:
             break;
     }

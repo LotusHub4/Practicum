@@ -59,7 +59,7 @@ router.get("/fieldFromDB", async (req, res) => {
                                 break;
                             case "date":
                                 //input date
-                                field = helpFunctions.handleField(name, "input", rows[i].nameField, "", rows[i].required, { inputType: "date" })
+                                field = helpFunctions.handleField(name, "input", rows[i].nameField, "isValidDate", rows[i].required, { inputType: "date" })
 
                                 break;
                             case "time":
