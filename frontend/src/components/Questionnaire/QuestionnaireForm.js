@@ -16,7 +16,6 @@ import SubjectIcon from '@material-ui/icons/Subject';
 import BackupIcon from '@material-ui/icons/Backup';
 import EventIcon from '@material-ui/icons/Event';
 import ScheduleIcon from '@material-ui/icons/Schedule';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { BsTrash } from "react-icons/bs"
 import { IconButton } from '@material-ui/core';
 import FilterNoneIcon from '@material-ui/icons/FilterNone';
@@ -62,10 +61,10 @@ export default function QuestionnaireForm() {
       var request = await axios.get(`http://localhost:5555/questionnaire/data/${id}`);
       var question_data = request.data.questions;
       var doc_name = question_data.file
-  
+
       setType(question_data[0].questionType)
       setQuestions(question_data)
-   
+
 
       dispatch({
         type: actionTypes.SET_QUESTIONS,
@@ -87,18 +86,18 @@ export default function QuestionnaireForm() {
     setType(questionType)
   }, [changeType])
 
-  
-   function  commitToDB() {
+
+  function commitToDB() {
     dispatch({
       type: actionTypes.SET_QUESTIONS,
       questions: questions
 
     })
-     axios.put(`http://localhost:5555/questionnaire/update_questions/`, {
+    axios.put(`http://localhost:5555/questionnaire/update_questions/`, {
       "questions": questions,
-    }).then(res=>{
+    }).then(res => {
       console.log(res);
-    }).catch(err=>{
+    }).catch(err => {
       console.log(err);
     })
     history("/questionnaire");
@@ -115,20 +114,20 @@ export default function QuestionnaireForm() {
   }
 
   function addQuestionType(i, type, realType) {
- 
-    let qs = [...questions];
-    if(realType === "checkbox"){
-      setOption("option");
- 
-    }
-    else{
-      setOption("");
-      for (let j = 0; j< qs[i].options.length; j++) {
 
-        removeOption(i,j)
-        
+    let qs = [...questions];
+    if (realType === "checkbox") {
+      setOption("option");
+
+    }
+    else {
+      setOption("");
+      for (let j = 0; j < qs[i].options.length; j++) {
+
+        removeOption(i, j)
+
       }
-      
+
     }
     qs[i].questionType = realType;
     qs[i].type = type;
@@ -146,7 +145,7 @@ export default function QuestionnaireForm() {
 
   }
 
-  function deleteQuestion(i,id) {
+  function deleteQuestion(i, id) {
 
     let qs = [...questions];
     if (questions.length > 1) {
@@ -162,12 +161,11 @@ export default function QuestionnaireForm() {
     setQuestions(qs)
   }
 
-  function handleOptionValue(text, i, j,questionType) {
+  function handleOptionValue(text, i, j, questionType) {
     var optionsOfQuestion = [...questions];
-    console.log("checkkkkk",questionType);
-    if(questionType === "checkbox"){
+    if (questionType === "checkbox") {
       setOption("option");
- 
+
     }
     optionsOfQuestion[i].options[j].option = text;
     //newMembersEmail[i]= email;
@@ -200,11 +198,11 @@ export default function QuestionnaireForm() {
     return result;
   };
 
-  function addOption(i,realType) {
+  function addOption(i, realType) {
     var optionsOfQuestion = [...questions];
-    if(realType === "checkbox"){
+    if (realType === "checkbox") {
       setOption("option");
- 
+
     }
     if (optionsOfQuestion[i].options.length < 5) {
       optionsOfQuestion[i].options.push({ option: "" })
@@ -252,7 +250,7 @@ export default function QuestionnaireForm() {
   function removeOption(i, j) {
     var optionsOfQuestion = [...questions];
     if (optionsOfQuestion[i].options.length > 1) {
-      optionsOfQuestion[i].options[j].option="";
+      optionsOfQuestion[i].options[j].option = "";
       // optionsOfQuestion[i].options.splice(j, 1);
       setQuestions(optionsOfQuestion)
     }
@@ -280,7 +278,6 @@ export default function QuestionnaireForm() {
   }
 
   function questionsUI() {
-    console.log("quesss " , questions);
     return questions.map((ques, i) => (
       <Draggable key={i} draggableId={i + 'id'} index={i}>
         {(provided, snapshot) => (
@@ -389,23 +386,23 @@ export default function QuestionnaireForm() {
                           //   </div>
                           // </div>
                           <div className="add_question_body" key={j}>
-                          {
-                            (ques.questionType === "text" || ques.questionType === "number" ||ques.questionType === "file" ||ques.questionType === "date" ||ques.questionType === "time" ) ?
-                              <input type={ques.questionType} style={{ marginRight: "10px" }} /> : 
+                            {
+                              (ques.questionType === "text" || ques.questionType === "number" || ques.questionType === "file" || ques.questionType === "date" || ques.questionType === "time") ?
+                                <input type={ques.questionType} style={{ marginRight: "10px" }} /> :
 
-                    <div>
-                      <div className='add-option-row'>
-                            {/* <input type={ques.questionType} style={{ marginRight: "10px" }} /> */}
-                            <input type="text" className="text_input" placeholder= {option} value={ques.options[j].option} onChange={(e) => { handleOptionValue(e.target.value, i, j,ques.questionType) }}></input>
-                      
+                                <div>
+                                  <div className='add-option-row'>
+                                    {/* <input type={ques.questionType} style={{ marginRight: "10px" }} /> */}
+                                    <input type="text" className="text_input" placeholder={option} value={ques.options[j].option} onChange={(e) => { handleOptionValue(e.target.value, i, j, ques.questionType) }}></input>
 
-                          <IconButton aria-label="delete" onClick={()=>{removeOption(i, j)}}>
-                                  <CloseIcon />
-                                  </IconButton>
-                        </div>
-                    </div>
-}
-                        </div>
+
+                                    <IconButton aria-label="delete" onClick={() => { removeOption(i, j) }}>
+                                      <CloseIcon />
+                                    </IconButton>
+                                  </div>
+                                </div>
+                            }
+                          </div>
                         ))}
 
 
@@ -414,15 +411,15 @@ export default function QuestionnaireForm() {
                           <div className="add_question_body">
                             <FormControlLabel disabled control={
 
-                              (ques.questionType != "text") ?
-                                <input type={ques.questionType} color="primary" inputProps={{ 'aria-label': 'secondary checkbox' }} style={{ marginLeft: "10px", marginRight: "10px" }} disabled /> :
-                                <ShortTextIcon style={{ marginRight: "10px" }} />
+                              (ques.questionType === "checkbox") ?
+                                <div>
+                                  <input type={ques.questionType} color="primary" inputProps={{ 'aria-label': 'secondary checkbox' }} style={{ marginLeft: "10px", marginRight: "10px" }} disabled />
+                                  <div>
+                                    <Button size="small" onClick={() => { addOption(i) }} style={{ textTransform: 'none', color: "#FFDAC4 ", fontSize: "13px", fontWeight: "600" }}>Add Option</Button>
+                                  </div>
+                                </div>
+                                : <div></div>
 
-                            } label={
-                              <div>
-                                
-                                <Button size="small" onClick={() => { addOption(i,ques.questionType) }} style={{ textTransform: 'none', color: "#FFDAC4", fontSize: "13px", fontWeight: "600" }}>Add Option</Button>
-                              </div>
                             } />
                           </div>
 
@@ -431,17 +428,14 @@ export default function QuestionnaireForm() {
 
                           <div className="add_question_bottom">
 
-                            <IconButton aria-label="Copy" onClick={() => { copyQuestion(i) }}>
+                            {/* <IconButton aria-label="Copy" onClick={() => { copyQuestion(i) }}>
                               <FilterNoneIcon />
-                            </IconButton>
+                            </IconButton> */}
 
-                            <IconButton aria-label="delete" onClick={() => { deleteQuestion(i,ques.id) }}>
+                            <IconButton aria-label="delete" onClick={() => { deleteQuestion(i, ques.id) }}>
                               <BsTrash />
                             </IconButton>
                             <span style={{ color: "#5f6368", fontSize: "13px" }}>Required </span> <Switch name="checkedA" color="primary" checked={ques.required} onClick={() => { requiredQuestion(i) }} />
-                            <IconButton>
-                              <MoreVertIcon />
-                            </IconButton>
                           </div>
                         </div>
                       </div>
