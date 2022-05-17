@@ -21,3 +21,23 @@
     margin-top: 20px;
 }
 
+.header_search{
+    display:flex;
+    flex-direction:row;
+    background-color:none;
+    border-radius:10px;
+    color:-internal-light-dark(black, white);
+    width:700px;
+    height:45px;
+}
+
+.header_search > input{
+    border:none;
+    height:40px;
+    background-color:none;
+    outline:none;
+    width:100%;
+    
+    
+}
+
