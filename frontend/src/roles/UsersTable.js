@@ -4,9 +4,18 @@ import { MDBTable, MDBTableHead, MDBTableBody, MDBContainer } from "mdb-react-ui
 import axios from 'axios';
 import { BiEdit } from 'react-icons/bi';
 import { AiFillDelete } from 'react-icons/ai';
+import { useNavigate } from "react-router-dom";
 
+export let Email = ""
+export function setEmail(email) {
+    Email = email
+}
+export function getemail() {
+    return Email;
+}
 
 export function UsersTable() {
+    let navigate = useNavigate();
     const UsersInfo = axios.get("http://localhost:5000/users/getAll");
     const [data, setData] = useState([]);
     const sortOptions = ["FirstName", "LastName", "Degree", "Role", "Location", "PhoneNumber", "User_id", "Email", "UserName", "Password"]
@@ -24,6 +33,13 @@ export function UsersTable() {
         console.log(email);
         console.log(email, "was deleted");
         axios.delete(`http://localhost:5000/users/${email}`)
+    }
+
+    function UpdateUserInfo(info) {
+        setEmail(info)
+        if (getemail() !== "")
+            navigate('/UserCard')
+
     }
 
     return (
@@ -61,7 +77,7 @@ export function UsersTable() {
                                         <td>{user.PhoneNumber}</td>
                                         <td>{user.Role}</td>
                                         <td>{user.Email}</td>
-                                        <td><BiEdit /></td>
+                                        <td onClick={() => { UpdateUserInfo(user.Email) }}><BiEdit /></td>
                                         <td onClick={() => { DeletTheUser(index) }} ><AiFillDelete /></td>
                                     </tr>
                                 </MDBTableBody>
